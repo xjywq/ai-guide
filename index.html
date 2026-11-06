@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026，AI 到底有什么用</title>
+<meta name="description" content="写给没有技术背景的朋友：AI 的六种用处，每一种都有真实案例和数据。资料截至 2026 年 11 月。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+
+<nav class="toc" aria-label="目录">
+  <a class="toc-brand" href="#cover">AI 到底有什么用<span>2026 · 现状报告</span></a>
+  <div class="toc-progress"><div class="toc-progress-track"><div class="toc-progress-fill"></div></div><span class="toc-progress-text">01 / 01</span></div>
+  <ol class="toc-list"></ol>
+  <div class="toc-hint">键盘 <kbd>↑</kbd> <kbd>↓</kbd> 翻页<br>点击目录跳转</div>
+</nav>
+
+<div class="topbar">
+  <button type="button" aria-label="打开目录">目录</button>
+  <span class="topbar-title"></span>
+  <span class="topbar-count"></span>
+  <i class="topbar-progress"></i>
+</div>
+
+<main>
+
+<!-- ==================== 开篇 ==================== -->
+<section class="slide cover" id="cover" data-chapter="开篇" data-title="封面">
+  <div class="slide-inner">
+    <div class="kicker reveal">AI 现状报告 · 2026 年 11 月</div>
+    <h1 class="reveal d1">2026，<br>AI 到底<em class="hl">有什么用</em></h1>
+    <p class="lede reveal d2">不讲原理，只讲用处。把这一轮 AI 归纳成六种用处，每一种都配上真实的案例和数据。看完之后，能用几句话向别人讲清楚 AI 有什么用，也知道它还做不到什么。</p>
+    <svg class="cover-curve reveal d3" viewBox="0 0 980 170" aria-hidden="true">
+      <defs><linearGradient id="coverGrad" x1="0" x2="1"><stop offset="0" stop-color="#2a78d6" stop-opacity="0.35"/><stop offset="1" stop-color="#22b3cf"/></linearGradient></defs>
+      <g stroke="rgba(148,163,184,.3)"><line x1="0" y1="160" x2="980" y2="160"/><line x1="0" y1="110" x2="980" y2="110" stroke-dasharray="2 6"/><line x1="0" y1="60" x2="980" y2="60" stroke-dasharray="2 6"/><line x1="0" y1="10" x2="980" y2="10" stroke-dasharray="2 6"/></g>
+      <path class="trace" pathLength="1" d="M10,156 C220,150 420,128 560,104 S800,40 960,14" fill="none" stroke="url(#coverGrad)" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="960" cy="14" r="5" fill="#22b3cf"/>
+      <text x="10" y="140" font-family="Consolas, monospace" font-size="13" fill="#8a97ab">2019 · AI 能独立完成约 6 秒的任务</text>
+      <text x="948" y="40" text-anchor="end" font-family="Consolas, monospace" font-size="13" fill="#0f172a">2026 · 约 17 小时</text>
+    </svg>
+    <div class="cover-meta reveal d4">
+      <span><b>6</b> 种用处</span>
+      <span><b>40+</b> 个有出处的案例</span>
+      <span>资料截至 <b>2026-11-06</b></span>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="what" data-chapter="开篇" data-title="现在的 AI 是什么">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">先说清楚</div>
+      <h2 class="reveal d1">现在的 AI，是一个<em class="hl">听得懂人话、会看会写、还能自己动手</em>的助手</h2>
+      <p class="lede reveal d2">它从海量的书籍、文章和代码中学习过。你用平常说话的方式交代事情，它能读文件、写材料、看图片、听语音、算数据，越来越多地能独立把一件事做完。三年时间，它从新鲜玩意变成了十亿人每周都用的工具。</p>
+    </header>
+    <div class="grid g-wide-right">
+      <div class="stack">
+        <div class="card stat reveal d2"><div class="label">全球</div><div class="num"><span class="count" data-to="10">10</span><small>亿+</small></div><p>每周使用 ChatGPT 的人数（2026 年 8 月）</p></div>
+        <div class="card stat reveal d3"><div class="label">中国</div><div class="num"><span class="count" data-to="7">7</span><small>亿+</small></div><p>生成式 AI 用户，普及率超过一半（CNNIC）</p></div>
+        <div class="card stat reveal d4"><div class="label">普及速度</div><div class="num"><span class="count" data-to="3">3</span><small>年</small></div><p>普及到 53% 的人口，比电脑和互联网都快</p></div>
+      </div>
+      <div class="card reveal d3">
+        <div class="chart" data-chart="line">
+          <script type="application/json">{"title":"ChatGPT 每周活跃用户（亿）","area":true,"height":330,"xMin":2023.5,"xMax":2026.75,"xTicks":[2024,2025,2026],"yMax":11,"format":{"suffix":" 亿"},"series":[{"name":"ChatGPT 周活跃用户","color":"series-1","points":[["2023-11",1],["2024-08",2],["2024-12",3],["2025-02",4],["2025-03",5],["2025-08",7,"约 7 亿"],["2025-10",8],["2026-02",9],["2026-08",10,"10 亿+"]]}],"annotations":[{"point":0,"text":"1 亿","dy":-16},{"point":8,"text":"10 亿+","dx":-4,"dy":-18}]}</script>
+        </div>
+      </div>
+    </div>
+    <div class="src reveal d5">来源：<a href="https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads/">OpenAI 2026-08</a> · <a href="https://finance.sina.com.cn/tech/roll/2026-09-29/doc-initphzz2880083.shtml">CNNIC 2026</a> · <a href="https://hai.stanford.edu/ai-index/2026-ai-index-report">Stanford AI Index 2026</a> · 用户数历史数据：TechCrunch、CNBC 等报道</div>
+  </div>
+</section>
+
+<section class="slide" id="speed" data-chapter="开篇" data-title="为什么要现在关注">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">为什么要现在关注</div>
+      <h2 class="reveal d1">它进步得太快：能独立干的活，<em class="hl">每 7 个月翻一番</em></h2>
+      <p class="lede reveal d2">衡量 AI 的一把直观的尺子：一件事交给人类专业人员要干多久，AI 能不能独立做完。2019 年只能做几秒钟的事，2026 年已经能做完人要干约 17 小时的事。同时，用它的价格两年降到了原来的 1/200。</p>
+    </header>
+    <div class="grid g-wide-left">
+      <div class="card reveal d2">
+        <div class="chart" data-chart="line">
+          <script type="application/json">{"title":"AI 有一半把握独立完成的任务长度（按人类耗时计，对数刻度）","height":320,"yLog":true,"yMin":0.05,"yMax":3000,"xMin":2019,"xMax":2026.5,"margin":{"right":40},"yTicks":[{"value":0.1667,"label":"10 秒"},{"value":1,"label":"1 分钟"},{"value":10,"label":"10 分钟"},{"value":60,"label":"1 小时"},{"value":480,"label":"8 小时"}],"series":[{"name":"METR 测量","color":"series-1","points":[["2019-02",0.1,"GPT-2 · 约 6 秒"],["2022-03",0.6,"GPT-3.5 · 约 36 秒"],["2023-03",6,"GPT-4 · 约 6 分钟"],["2024-06",19.8,"Claude 3.5 Sonnet · 约 20 分钟"],["2024-12",41.6,"o1 · 约 42 分钟"],["2025-02",55.3,"Claude 3.7 Sonnet · 约 55 分钟"],["2025-04",91.4,"o3 · 约 1.5 小时"],["2025-08",130.8,"GPT-5 · 约 2.2 小时"],["2025-11",246.8,"Claude Opus 4.5 · 约 4.1 小时"]]},{"name":"METR 新版测量","color":"series-1","dashed":true,"points":[["2025-12",352.2,"GPT-5.2 · 约 5.9 小时"],["2026-02",718.8,"Claude Opus 4.6 · 约 12 小时"],["2026-04",1044.8,"Claude Mythos Preview · 约 17.4 小时"]]}],"annotations":[{"series":0,"point":0,"text":"2019：约 6 秒","dx":30,"dy":-22,"anchor":"start"},{"series":0,"point":2,"text":"2023：约 6 分钟","dx":-10,"dy":-30,"anchor":"end"},{"series":1,"point":2,"text":"2026：约 17 小时","dx":-16,"dy":-6,"anchor":"end"}]}</script>
+        </div>
+        <p style="margin-top:8px;font-size:14px;color:var(--ink-3)">"一半把握"指成功率约 50%；虚线为 METR 更新后的测量方法，与实线不完全可比。</p>
+      </div>
+      <div class="stack">
+        <div class="card stat reveal d3"><div class="label">更便宜</div><div class="num accent-num">1/200</div><p>达到 GPT-4 水平的使用价格，2023 年 3 月到 2025 年 2 月的降幅</p></div>
+        <div class="card stat reveal d4"><div class="label">更聪明</div><div class="num accent-num">5%→55%</div><p>"人类最后的考试"由各领域专家专挑 AI 答不出的题，AI 的最高分两年内从约 5% 升到约 55%</p></div>
+      </div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>三年前它像一个只能跑跑腿的实习生，现在像一个能独立干两天活的熟手，而且还在快速成长。</p>
+    <div class="src reveal d5">来源：<a href="https://metr.org/time-horizons/">METR</a> · <a href="https://epoch.ai/data-insights/llm-inference-price-trends">Epoch AI 价格趋势</a> · <a href="https://epoch.ai/data/benchmark_data.zip">Epoch AI 基准数据</a></div>
+  </div>
+</section>
+
+<!-- ==================== 六种用处 ==================== -->
+<section class="slide" id="uses" data-chapter="六种用处" data-title="总览">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">一页看全</div>
+      <h2 class="reveal d1">AI 的用处，归纳起来就是<em class="hl">六种</em></h2>
+      <p class="lede reveal d2">不管是医院、航空公司、政府还是实验室，AI 发挥作用的方式离不开这六种。点击卡片可以直接跳到对应的页面。</p>
+    </header>
+    <div class="grid g-3 uses">
+      <a class="card use-card reveal d2" href="#use-read"><div class="use-no">用处一</div><h3>读得快、写得快</h3><p>几天的案头活，几分钟出初稿</p><div class="fig">2 小时<small>归类完 5 万份民意</small></div></a>
+      <a class="card use-card reveal d2" href="#use-see"><div class="use-no">用处二</div><h3>眼睛尖</h3><p>当第二双眼睛，查出人容易漏掉的</p><div class="fig">+12%<small>多查出的癌症</small></div></a>
+      <a class="card use-card reveal d3" href="#use-predict"><div class="use-no">用处三</div><h3>算得快、看得远</h3><p>仿真从小时到秒，故障发生前就预判</p><div class="fig">5,600→55<small>次航班取消</small></div></a>
+      <a class="card use-card reveal d3" href="#use-expert"><div class="use-no">用处四</div><h3>让人人有专家</h3><p>新手变熟手，好医生好老师装进手机</p><div class="fig">+34%<small>新手的工作效率</small></div></a>
+      <a class="card use-card reveal d4" href="#use-agent"><div class="use-no">用处五</div><h3>自己动手干活</h3><p>从"你问它答"到"交代任务它去办"</p><div class="fig">17 小时<small>能独立完成的任务</small></div></a>
+      <a class="card use-card reveal d4" href="#use-science"><div class="use-no">用处六</div><h3>加速科学发现</h3><p>帮科学家拿下诺贝尔奖、找到新药</p><div class="fig">2 亿<small>种蛋白质结构</small></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="use-read" data-chapter="六种用处" data-title="一 · 读得快、写得快">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处一</div>
+      <h2 class="reveal d1">读得快、写得快：几天的案头活，<em class="hl">几分钟出初稿</em></h2>
+      <p class="lede reveal d2">读文件、归纳意见、起草材料、审合同，这类以文字为主的工作，是 AI 最成熟、用得最广的地方。</p>
+    </header>
+    <div class="grid g-4">
+      <div class="card case reveal d2"><div class="who">英国政府</div><div class="what">5 万多份公众意见按主题归类</div><div class="fig">2<small>小时</small></div><p>花费 240 英镑，专家抽查核验用了 22 小时。AI 归类的一致性高于两个人类专家之间的一致性。</p></div>
+      <div class="card case reveal d3"><div class="who">深圳福田区</div><div class="what">70 名"AI 数智员工"处理政务</div><div class="fig">−90%<small>公文审核时间</small></div><p>定制化公文从 5 天缩到几分钟，群众诉求分派准确率从 70% 升到 95%。每个"数智员工"都配有人类"监护人"。</p></div>
+      <div class="card case reveal d4"><div class="who">高盛</div><div class="what">起草上市招股书</div><div class="fig">95%<small>几分钟起草完</small></div><p>过去要 6 人团队做两周，现在 AI 几分钟起草完 95% 的内容，剩下的由人完善。</p></div>
+      <div class="card case reveal d5"><div class="who">主流 AI 模型</div><div class="what">一次能读多少</div><div class="fig">1,500<small>页</small></div><p>约 150 万个汉字一次读完，读完后可以提问、对比、找矛盾。阿里的长文本模型能读 1.5 万页。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>相当于每个人身边多了一个读得极快、随叫随到的秘书。初稿它来写，拍板签字的还是人。</p>
+    <div class="src reveal d5">来源：<a href="https://www.gov.uk/government/news/ground-breaking-use-of-ai-saves-taxpayers-money-and-delivers-greater-government-efficiency">英国政府 2025-10</a> · <a href="http://www.news.cn/20250223/f775260987f94493906eed24619538d6/c.html">新华社 2025-02</a> · <a href="https://fortune.com/2025/01/17/goldman-sachs-ceo-david-solomon-ai-tasks-ipo-prospectus-s1-filing-sec/">Fortune 2025-01</a> · <a href="https://ai.google.dev/gemini-api/docs/long-context">Google 文档</a> · <a href="https://help.aliyun.com/zh/model-studio/long-context-qwen-long">阿里云文档</a></div>
+  </div>
+</section>
+
+<section class="slide" id="use-see" data-chapter="六种用处" data-title="二 · 眼睛尖">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处二</div>
+      <h2 class="reveal d1">眼睛尖：当<em class="hl">第二双眼睛</em>，查出人容易漏掉的</h2>
+      <p class="lede reveal d2">CT 片、钼靶片、发动机叶片、电网巡检照片，量大、细节小、看久了容易疲劳。AI 不知疲倦，专门盯人容易漏掉的地方。</p>
+    </header>
+    <div class="grid g-wide-left">
+      <div class="card reveal d2">
+        <div class="label">宁波大学附属人民医院 × 阿里达摩院</div>
+        <h3>一次胃痛检查，AI 在普通 CT 里发现了早期胰腺癌</h3>
+        <p>66 岁的张先生因胃痛就诊，CT 报告没有提示胰腺问题。AI 在后台读片时报警，医院打电话召回复查，确诊早期胰腺癌，手术后已康复。</p>
+        <div class="grid g-4" style="gap:10px;margin-top:12px">
+          <div class="stat"><div class="num"><span class="count" data-to="18">18</span><small>万份</small></div><p>AI 读过的 CT</p></div>
+          <div class="stat"><div class="num"><span class="count" data-to="24">24</span><small>例</small></div><p>查出胰腺癌</p></div>
+          <div class="stat"><div class="num accent-num"><span class="count" data-to="14">14</span><small>例</small></div><p>处于早期</p></div>
+          <div class="stat"><div class="num accent-num"><span class="count" data-to="11">11</span><small>例</small></div><p>原报告未提示</p></div>
+        </div>
+      </div>
+      <div class="card reveal d3">
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"AI 和医生一起看乳腺筛查片，多查出的癌症","max":20,"usable":70,"items":[{"label":"苏格兰","sub":"1 万多名女性","value":12,"display":"+12%","hi":true},{"label":"德国","sub":"46 万名女性","value":17.6,"display":"+17.6%","hi":true}]}</script></div>
+      </div>
+    </div>
+    <div class="grid g-3" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who">GE 航空 · LEAP 发动机</div><div class="what">叶片孔探检查</div><div class="fig"><span class="from">3 →</span> 1.5<small>小时</small></div><p>检查时间减半，准确率同时提高。</p></div>
+      <div class="card case reveal d4"><div class="who">东航技术</div><div class="what">AI 识别发动机叶片烧蚀等缺陷</div><div class="fig">95%+<small>准确率</small></div><p>已在东航所有分子公司应用，上传孔探录像即可自动出报告。</p></div>
+      <div class="card case reveal d5"><div class="who">南方电网</div><div class="what">巡检照片找线路缺陷</div><div class="fig"><span class="from">30 秒 →</span> 0.08<small>秒/张</small></div><p>一次全域巡视的人工核查要 300 小时，AI 半天完成。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>就像给每位医生、每位检查员配了一个永远不累的助手，专门找细节。它负责提醒，判断仍由人来做。</p>
+    <div class="src reveal d5">来源：<a href="http://epaper.cnnb.com.cn/nbwb/pc/content/202601/12/content_256799.html">宁波晚报 2026-01</a> · <a href="https://www.abdn.ac.uk/news/22964/">阿伯丁大学 2024</a> · <a href="https://www.nature.com/articles/s41591-024-03408-6">Nature Medicine 2025</a> · <a href="https://www.geaerospace.com/news/press-releases/ge-aerospace-deploys-ai-driven-inspection-tool-maximize-narrowbody-engine-time-wing">GE 2025-02</a> · <a href="http://www.caacnews.com.cn/1/6/202309/t20230921_1370685.html">中国民航网 2023-09</a> · <a href="https://www.csg.cn/xwzx/2024/gsyw/202408/t20240820_342231.html">南方电网 2024-08</a></div>
+  </div>
+</section>
+
+<section class="slide" id="use-predict" data-chapter="六种用处" data-title="三 · 算得快、看得远">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处三</div>
+      <h2 class="reveal d1">算得快、看得远：仿真从小时到秒，<em class="hl">坏之前就换掉</em></h2>
+      <p class="lede reveal d2">过去要靠超级计算机算几个小时的仿真和预报，AI 几秒钟给出结果；过去零件坏了再修，现在根据数据提前判断哪个零件快坏了。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card reveal d2">
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"达美航空：一年中因机务原因取消的航班","max":5600,"usable":72,"items":[{"label":"2010 年","value":5600,"display":"5,600+ 次"},{"label":"2018 年","value":55,"display":"55 次","hi":true}]}</script></div>
+        <p style="margin-top:10px;font-size:15px">用 AI 分析飞机传感器数据，预测零件故障（成功率超过 95%），在夜间例行检修时提前更换。这 8 年的下降是整个预测性维护项目的成果，AI 是其中的关键部分。</p>
+      </div>
+      <div class="card reveal d3">
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"中国商飞\"东方·御风\"：一次翼型气动仿真","max":600,"usable":62,"items":[{"label":"传统仿真","value":600,"display":"10 分钟"},{"label":"AI 大模型","value":25,"display":"25 秒","hi":true}]}</script></div>
+        <p style="margin-top:10px;font-size:15px">大飞机设计需要约千万次流体仿真。与华为合作的工业级流体仿真大模型，把单次仿真缩短到原来的 1/25，误差在万分之一量级。</p>
+      </div>
+    </div>
+    <div class="grid g-3" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who">华为盘古 · 欧洲中期天气预报中心</div><div class="what">AI 天气预报</div><div class="fig">1 万倍<small>速度</small></div><p>盘古比传统数值预报快 1 万倍以上；欧洲中心的 AI 预报已正式业务运行，能耗降至约千分之一。</p></div>
+      <div class="card case reveal d4"><div class="who">国家电网</div><div class="what">光明电力大模型预测用电负荷</div><div class="fig">98.18%<small>预测精度</small></div><p>省级日前负荷预测，在浙江、江苏等地验证。</p></div>
+      <div class="card case reveal d5"><div class="who">阿拉斯加航空</div><div class="what">AI 实时推荐最优航路</div><div class="fig">120<small>万加仑/年</small></div><p>2023 年省下的燃油，减少约 1.2 万吨二氧化碳；是否采用由签派员决定。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>过去要算一整夜的，现在喝口茶就算完；过去是"坏了再修"，现在是"快坏了就换"。</p>
+    <div class="src reveal d5">来源：<a href="https://web.archive.org/web/20250217000257/https://deltatechops.com/delta-techops-expanding-predictive-maintenance-capabilities-with-new-airbus-partnership/">Delta TechOps 2019</a> · <a href="https://www.guancha.cn/economy/2022_09_05_656631.shtml">观察者网采访商飞首席科学家 2022</a> · <a href="https://www.nature.com/articles/s41586-023-06185-3">Nature 2023</a> · <a href="https://www.ecmwf.int/en/about/media-centre/news/2025/ecmwfs-ai-forecasts-become-operational">ECMWF 2025</a> · <a href="https://finance.sina.com.cn/jjxw/2026-07-17/doc-iniiaxpe1401928.shtml">中国电力新闻网 2026-07</a> · <a href="https://news.alaskaair.com/sustainability/how-ai-is-helping-alaska-airlines-plan-better-flight-routes-and-lower-emissions/">阿拉斯加航空 2024</a></div>
+  </div>
+</section>
+
+<section class="slide" id="use-expert" data-chapter="六种用处" data-title="四 · 让人人有专家">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处四</div>
+      <h2 class="reveal d1">让人人有专家：<em class="hl">新手变熟手</em>，好医生、好老师装进手机</h2>
+      <p class="lede reveal d2">AI 把顶尖专家的经验变成人人可用的能力。受益最大的往往不是专家本人，而是经验少的新人，以及原本接触不到专家的普通人。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card reveal d2">
+        <div class="label">斯坦福 × 麻省理工 · 5,179 名客服的对照研究</div>
+        <div class="chart" data-chart="bars" style="margin-top:6px"><script type="application/json">{"title":"用上 AI 助手后，每小时解决的问题数","max":40,"usable":70,"items":[{"label":"新手和低技能员工","value":34,"display":"+34%","hi":true},{"label":"全体平均","value":14,"display":"+14%","hi":true},{"label":"资深员工","value":0,"display":"几乎没有变化"}]}</script></div>
+        <p style="margin-top:10px;font-size:15px">AI 把资深员工的经验"传"给了新人。另一项哈佛与波士顿咨询公司对 758 名顾问的实验中，用 AI 的人速度快 25%，质量也更高。</p>
+      </div>
+      <div class="card reveal d3">
+        <div class="label">微软 MAI-DxO · 《Science》2026 年 10 月</div>
+        <div class="chart" data-chart="bars" style="margin-top:6px"><script type="application/json">{"title":"304 个疑难病例的诊断准确率","max":100,"usable":72,"items":[{"label":"AI 诊断系统","value":83.2,"display":"83.2%","hi":true},{"label":"全科医生","sub":"可以查书、上网","value":36.1,"display":"36.1%"}]}</script></div>
+        <p style="margin-top:10px;font-size:15px">对比对象是全科医生，不是专科专家团队。每周有约 2.3 亿人用 ChatGPT 咨询健康问题。</p>
+      </div>
+    </div>
+    <div class="grid g-2" style="margin-top:18px">
+      <div class="card case reveal d4"><div class="who">世界银行 · 尼日利亚随机对照实验</div><div class="what">学生放学后用 AI 辅导学英语</div><div class="fig">6 周 <span class="from">≈ 常规课堂约 1.5 年的进度</span></div><p>效果超过了约 80% 的发展中国家教育项目。</p></div>
+      <div class="card case reveal d5"><div class="who">Google 会议软件</div><div class="what">开会时实时翻译，用说话人自己的声音</div><div class="fig">63<small>种语言任意互译</small></div><p>延迟约 2 秒。苹果耳机配合手机也能实时翻译中文、英语、日语等 9 种语言。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>以前只有少数人请得起私人医生、家教和翻译，现在每个人的手机里都有一个，而且水平不低。</p>
+    <div class="src reveal d5">来源：<a href="https://www.nber.org/papers/w31161">NBER / 《经济学季刊》</a> · <a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=64700">哈佛商学院 2023</a> · <a href="https://www.techtimes.com/articles/329478/20261026/microsoft-ai-beats-physicians-diagnosis-83-accuracy-lower-cost-science.htm">Tech Times 转述 Science 2026-10</a> · <a href="https://openai.com/index/introducing-chatgpt-health/">OpenAI</a> · <a href="https://voxdev.org/topic/education/how-ai-tutors-improved-learning-nigeria">VoxDev</a> · <a href="https://workspaceupdates.googleblog.com/2026/10/real-time-speech-translation-in-google-Meet-expands-to-63-languages-with-automatic-language-detection.html">Google 2026-10</a></div>
+  </div>
+</section>
+
+<section class="slide" id="use-agent" data-chapter="六种用处" data-title="五 · 自己动手干活">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处五</div>
+      <h2 class="reveal d1">自己动手干活：从"你问它答"，到<em class="hl">"交代任务，它去办"</em></h2>
+      <p class="lede reveal d2">这是 2025 到 2026 年最大的变化。AI 不再只是回答问题，而是能接手一整件事：写完一个软件、开着车把乘客送到目的地、规划火星车的路线。</p>
+    </header>
+    <div class="grid g-wide-right">
+      <div class="stack">
+        <div class="card reveal d2">
+          <div class="chart" data-chart="bars"><script type="application/json">{"title":"44 个职业的真实工作，AI 作品不输行业专家的比例","max":100,"usable":70,"items":[{"label":"2025 年 12 月","value":70.9,"display":"70.9%"},{"label":"2026 年 3 月","value":83.0,"display":"83.0%","hi":true}]}</script></div>
+          <p style="margin-top:8px;font-size:14.5px">OpenAI 的 GDPval 测试，由平均从业 14 年的专业人士出题、盲评。AI 速度是专家的 11 倍以上，成本不到 1%。</p>
+        </div>
+        <div class="card case reveal d3"><div class="who">Google · 亚马逊</div><div class="what">写代码</div><div class="fig">75%<small>Google 新代码由 AI 编写</small></div><p>亚马逊用 AI 自动升级数万个内部系统，相当于省下 4,500 多年的开发工作量（企业自估）。</p></div>
+      </div>
+      <div class="stack">
+        <div class="grid g-2" style="gap:18px">
+          <div class="card case reveal d3"><div class="thumb"><img src="img/waymo.jpg" alt="Waymo 无人驾驶出租车" loading="lazy"></div><div class="who">Waymo（美国）</div><div class="fig">50<small>万单/周</small></div><p>无人出租车付费订单，覆盖美国 15 个城市，累计无人驾驶 2.7 亿英里。</p></div>
+          <div class="card case reveal d4"><div class="thumb"><img src="img/apollogo.jpg" alt="萝卜快跑无人驾驶车" loading="lazy"></div><div class="who">萝卜快跑（百度）</div><div class="fig">2,200<small>万单+</small></div><p>累计订单（2026 年 4 月），已在阿布扎比开展全无人商业运营。</p></div>
+        </div>
+        <div class="card case reveal d5"><div class="who">深圳福田区 · NASA JPL</div><div class="what">"数字员工"已经上岗</div><p>福田区 70 名 AI 数智员工覆盖 240 个政务场景；2025 年 12 月，NASA 工程师首次让 AI 规划毅力号火星车的行驶路线并写出指令，经仿真校验后执行，行驶约 400 米。</p></div>
+      </div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>以前它是一把好用的工具，现在更像一个新招的员工：交代清楚任务，它能自己干完，但关键环节要有人检查。</p>
+    <div class="src reveal d5">来源：<a href="https://openai.com/index/introducing-gpt-5-4/">OpenAI GPT-5.4</a> · <a href="https://openai.com/index/introducing-gpt-5-2/">OpenAI GPT-5.2</a> · <a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/cloud-next-2026-sundar-pichai/">Google 2026-04</a> · <a href="https://aws.amazon.com/blogs/devops/amazon-q-developer-just-reached-a-260-million-dollar-milestone/">AWS 2024</a> · <a href="https://techcrunch.com/2026/09/24/waymo-is-scaling-fast-heres-what-the-fleet-data-shows/">TechCrunch 2026-09</a> · <a href="https://www.sec.gov/Archives/edgar/data/0001329099/000119312526228123/d156481dex991.htm">百度财报</a> · <a href="https://www.anthropic.com/features/claude-on-mars">NASA JPL 案例</a> · 照片：Dllu、S5A-0043，Wikimedia Commons，CC BY 4.0</div>
+  </div>
+</section>
+
+<section class="slide" id="use-science" data-chapter="六种用处" data-title="六 · 加速科学发现">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">用处六</div>
+      <h2 class="reveal d1">加速科学发现：AI 帮科学家<em class="hl">拿下了诺贝尔奖</em></h2>
+      <p class="lede reveal d2">在生物、数学、材料、医药这些最难的领域，AI 已经做出了人类几十年没做到的成果，而且被学术界正式承认。</p>
+    </header>
+    <div class="grid g-4">
+      <div class="card case reveal d2"><div class="who">2024 诺贝尔化学奖</div><div class="what">AlphaFold 预测蛋白质结构</div><div class="fig">2<small>亿种</small></div><p>解决了 50 年的难题。用实验方法逐个测定要数亿年，现在 190 个国家的 400 万研究者在用。</p></div>
+      <div class="card case reveal d3"><div class="who">2025-07 · 2026-05</div><div class="what">数学：奥赛金牌，推翻 80 年的猜想</div><div class="fig">35<small>/ 42 分</small></div><p>Google 的 AI 获国际数学奥林匹克金牌水平；2026 年 OpenAI 的模型推翻了数学家 Erdős 1946 年的猜想，菲尔兹奖得主称之为里程碑。</p></div>
+      <div class="card case reveal d4"><div class="who">DeepMind GNoME</div><div class="what">发现新材料</div><div class="fig">220<small>万种</small></div><p>新晶体结构，相当于人类约 800 年的知识积累；其中 736 种已被实验室实际合成。</p></div>
+      <div class="card case reveal d5"><div class="who">英矽智能 · 《Nature Medicine》</div><div class="what">AI 找靶点、AI 设计的新药</div><div class="fig">+98.4<small>毫升</small></div><p>治疗肺纤维化的二期临床，12 周后肺活量平均增加 98.4 毫升，安慰剂组下降 20.3 毫升。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>科学家的"显微镜"换代了：AI 负责在海量可能性里快速筛出最有希望的方向，科学家负责验证和判断。</p>
+    <div class="src reveal d5">来源：<a href="https://www.nobelprize.org/prizes/chemistry/2024/press-release/">诺贝尔奖官网</a> · <a href="https://blog.google/innovation-and-ai/technology/ai/ai-applications-science-people/">Google 2026-09</a> · <a href="https://deepmind.google/discover/blog/advanced-version-of-gemini-with-deep-think-officially-achieves-gold-medal-standard-at-the-international-mathematical-olympiad/">DeepMind 2025-07</a> · <a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">OpenAI 2026-05</a> · <a href="https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/">GNoME</a> · <a href="https://www.nature.com/articles/s41591-025-03743-2">Nature Medicine 2025</a></div>
+  </div>
+</section>
+
+<!-- ==================== 航空航天 ==================== -->
+<section class="slide" id="aero" data-chapter="航空航天" data-title="航空航天里的 AI">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">放到航空航天里看</div>
+      <h2 class="reveal d1">这六种用处，在航空航天里<em class="hl">都已经落地</em></h2>
+    </header>
+    <div class="grid g-3">
+      <div class="card case reveal d2"><div class="thumb"><img src="img/mu-borescope.jpg" alt="东航技术人员进行发动机孔探" loading="lazy"></div><div class="who">维修 · 东航、GE 航空</div><div class="what">AI 看孔探图像找叶片缺陷</div><p>东航识别准确率 95% 以上，GE 检查时间从 3 小时降到 1.5 小时。</p></div>
+      <div class="card case reveal d3"><div class="thumb"><img src="img/c919.jpg" alt="东航 C919" loading="lazy"></div><div class="who">运行 · 达美、易捷、阿拉斯加航空</div><div class="what">预测故障、优化航路</div><p>达美机务原因取消从一年 5,600 次降到 55 次；阿拉斯加航空一年省油 120 万加仑。</p></div>
+      <div class="card case reveal d4"><div class="thumb"><img src="img/nasa-evolved.jpg" alt="NASA 用 AI 设计的结构件" loading="lazy" style="object-position:center 72%"></div><div class="who">设计 · 中国商飞、NASA、空客</div><div class="what">AI 仿真和 AI 设计零件</div><p>商飞气动仿真从 10 分钟到 25 秒；NASA 结构件最多减重 2/3；空客 A320 隔板轻 45%。</p></div>
+      <div class="card case reveal d3"><div class="who">卫星 · 航天科技集团、之江实验室</div><div class="what">大模型上了天</div><p>"天玄·千河"1.0 已上注在轨星座稳定运行，2.0 于 2026 年 9 月发布；三体计算星座 12 颗卫星搭载 80 亿参数模型，数据在轨处理。</p></div>
+      <div class="card case reveal d4"><div class="thumb"><img src="img/perseverance.jpg" alt="毅力号火星车" loading="lazy"></div><div class="who">深空 · NASA JPL</div><div class="what">AI 规划火星车路线</div><p>2025 年 12 月首次由 AI 规划毅力号的行驶路径，经仿真校验后执行约 400 米。</p></div>
+      <div class="card case reveal d5"><div class="thumb"><img src="img/x62a.jpg" alt="X-62A VISTA 试验机" loading="lazy"></div><div class="who">飞行 · 美国 DARPA</div><div class="what">AI 驾驶 F-16 与人类真机空战</div><p>首次在真实天空进行的 AI 对人类视距内空战测试。官方未公布胜负。</p></div>
+    </div>
+    <div class="src reveal d5">来源：<a href="http://www.caacnews.com.cn/1/6/202510/t20251025_1390824.html">中国民航网</a> · <a href="https://www.geaerospace.com/news/press-releases/ge-aerospace-deploys-ai-driven-inspection-tool-maximize-narrowbody-engine-time-wing">GE</a> · <a href="https://aircraft.airbus.com/en/newsroom/news/2024-10-keeping-the-fleet-flying">空客</a> · <a href="https://www.nasa.gov/science-research/nasa-turns-to-ai-to-design-mission-hardware/">NASA</a> · <a href="https://www.spacechina.com/n25/n2014789/n2014804/c4702521/content.html">航天科技集团</a> · <a href="https://www.news.cn/20260213/d985035629be4998bcb3086d1f4b6ecb/c.html">新华社</a> · <a href="https://www.darpa.mil/about/innovation-timeline/ace">DARPA</a> · 照片：东航信息部 / 中国民航网、4300streetcar（CC BY 4.0）、NASA、NASA/JPL-Caltech/MSSS、美国空军</div>
+  </div>
+</section>
+
+<!-- ==================== 边界 ==================== -->
+<section class="slide" id="limits" data-chapter="边界" data-title="还做不到什么">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">也要知道它的短处</div>
+      <h2 class="reveal d1">能拿奥数金牌，却<em class="hl">读不准钟表</em>：会出错，也会附和人</h2>
+      <p class="lede reveal d2">AI 的能力是"锯齿状"的：一些极难的事做得比人好，一些简单的事却会出错。用对了地方事半功倍，用错了地方反而坏事。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card reveal d2"><div class="versus"><div><div class="num good">金牌</div><p>国际数学奥林匹克</p></div><div class="vs">VS</div><div><div class="num bad">50.1%</div><p>读指针钟表的正确率</p></div></div></div>
+      <div class="card reveal d3"><div class="versus"><div><div class="num good">89.4%</div><p>机器人在仿真环境里做家务的成功率</p></div><div class="vs">VS</div><div><div class="num bad">12%</div><p>到了真实家庭里</p></div></div></div>
+      <div class="card reveal d3"><div class="versus"><div><div class="num good">90%+</div><p>正常提问时的准确率（DeepSeek R1）</p></div><div class="vs">VS</div><div><div class="num bad">14.4%</div><p>用户先说出错误观点后，它容易顺着说</p></div></div></div>
+      <div class="card reveal d4"><div class="versus"><div><div class="num good">+25%</div><p>咨询顾问在 AI 擅长的任务上提速</p></div><div class="vs">VS</div><div><div class="num bad">−19<small style="font-size:15px"> 个点</small></div><p>在 AI 不擅长的任务上，依赖它的人正确率反而下降</p></div></div></div>
+    </div>
+    <div class="grid g-2" style="margin-top:18px">
+      <div class="card case reveal d4"><div class="who">会"一本正经地说错话"</div><p>在一项知识可靠性测试中，26 个主流模型的"幻觉"率在 22% 到 94% 之间。74% 的企业把"不准确"列为使用 AI 的头号风险。</p></div>
+      <div class="card case reveal d5"><div class="who">只看效率会吃亏 · Klarna</div><p>这家金融科技公司的 AI 客服一个月顶了 700 名员工，解决时间从 11 分钟降到 2 分钟；一年后 CEO 承认服务质量下降，又招回了人工客服。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>它像一个很能干、但偶尔会一本正经说错话的新同事：要用，但重要的事要核实，拍板的必须是人。</p>
+    <div class="src reveal d5">来源：<a href="https://hai.stanford.edu/ai-index/2026-ai-index-report">Stanford AI Index 2026</a> · <a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=64700">哈佛商学院</a> · <a href="https://www.klarna.com/international/press/klarna-ai-assistant-handles-two-thirds-of-customer-service-chats-in-its-first-month/">Klarna 2024</a> · <a href="https://www.entrepreneur.com/business-news/klarna-ceo-reverses-course-by-hiring-more-humans-not-ai/491396">Entrepreneur 2025</a></div>
+  </div>
+</section>
+
+<!-- ==================== 总结 ==================== -->
+<section class="slide" id="talk" data-chapter="总结" data-title="怎么讲给别人听">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">总结</div>
+      <h2 class="reveal d1">如果有人问"AI 到底有什么用"，可以<em class="hl">这样讲</em></h2>
+    </header>
+    <ol class="talk">
+      <li class="reveal d1"><span class="n">1</span><span class="line">读得快、写得快：几天的案头活，几分钟出初稿。</span><span class="eg">英国政府 5 万份民意 2 小时归类完；福田区公文审核时间缩短 90%。</span></li>
+      <li class="reveal d1"><span class="n">2</span><span class="line">眼睛尖：当第二双眼睛，查出人容易漏掉的。</span><span class="eg">宁波医院用 AI 在普通 CT 里查出早期胰腺癌；东航孔探识别准确率 95% 以上。</span></li>
+      <li class="reveal d2"><span class="n">3</span><span class="line">算得快、看得远：仿真从小时到秒，坏之前就换。</span><span class="eg">商飞气动仿真 10 分钟变 25 秒；达美航空机务取消从 5,600 次降到 55 次。</span></li>
+      <li class="reveal d2"><span class="n">4</span><span class="line">让人人有专家：新手变熟手，医生、老师、翻译装进手机。</span><span class="eg">新手客服效率提高 34%；疑难病诊断准确率 83%，全科医生是 36%。</span></li>
+      <li class="reveal d3"><span class="n">5</span><span class="line">自己动手干活：交代任务，它能独立干完。</span><span class="eg">能独立完成人要干约 17 小时的工作；无人出租车每周跑 50 万单。</span></li>
+      <li class="reveal d3"><span class="n">6</span><span class="line">加速科学发现：帮科学家拿了诺贝尔奖、找到新药。</span><span class="eg">AlphaFold 预测 2 亿种蛋白质结构；AI 设计的新药进入二期临床。</span></li>
+      <li class="wide reveal d4"><span class="n">!</span><span class="line">但它会出错，也会附和人：AI 出线索和初稿，人做判断和担责。</span><span class="eg">能力还在以每 7 个月翻一番的速度增长，今天做不到的事，一两年后可能就能做到。</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ==================== 附录 ==================== -->
+<section class="slide" id="cases" data-chapter="附录" data-title="案例库">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker">附录</div>
+      <h2>案例库：正文提到和没提到的案例</h2>
+      <p class="lede">按六种用处归类，方便查找和引用。表格可以上下滚动。</p>
+    </header>
+    <div class="case-table-wrap">
+      <table class="case-table">
+        <thead><tr><th>用处</th><th>机构</th><th>做了什么</th><th>效果</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>读写</td><td><b>英国政府</b></td><td>AI 归类 5 万多份公众咨询意见</td><td>约 2 小时、240 英镑；专家核验 22 小时</td><td><a href="https://www.gov.uk/government/news/ground-breaking-use-of-ai-saves-taxpayers-money-and-delivers-greater-government-efficiency">gov.uk</a></td></tr>
+          <tr><td>读写</td><td><b>深圳福田区</b></td><td>70 名 AI 数智员工，240 个政务场景</td><td>公文审核时间 −90%；诉求分派准确率 70%→95%</td><td><a href="http://www.news.cn/20250223/f775260987f94493906eed24619538d6/c.html">新华社</a></td></tr>
+          <tr><td>读写</td><td><b>高盛</b></td><td>AI 起草 IPO 招股书</td><td>6 人两周的活，几分钟完成 95%</td><td><a href="https://fortune.com/2025/01/17/goldman-sachs-ceo-david-solomon-ai-tasks-ipo-prospectus-s1-filing-sec/">Fortune</a></td></tr>
+          <tr><td>读写</td><td><b>摩根大通</b></td><td>内部 AI 助手</td><td>每周 15 万员工使用，自估每周省 4 小时</td><td><a href="https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/investor-relations/documents/2026-company-updates/company-update-full-event-transcript.pdf">投资者会议</a></td></tr>
+          <tr><td>读写</td><td><b>安理谢尔曼律所</b></td><td>1,900 名律师用 AI 审合同</td><td>每份合同平均省约 7 小时</td><td><a href="https://ukstories.microsoft.com/features/how-ao-shearman-is-reshaping-law-with-trailblazing-ai-tool/">Microsoft</a></td></tr>
+          <tr><td>读写</td><td><b>小鹏汽车</b></td><td>飞书 AI 会议纪要</td><td>2024 年 16 万份，2025 上半年 63 万份</td><td><a href="https://www.feishu.cn/content/article/7577317993749269689">飞书</a></td></tr>
+          <tr><td>看</td><td><b>宁波大学附属人民医院</b></td><td>AI 筛查平扫 CT 中的胰腺癌</td><td>18 万份 CT 查出 24 例，14 例早期</td><td><a href="http://epaper.cnnb.com.cn/nbwb/pc/content/202601/12/content_256799.html">宁波晚报</a></td></tr>
+          <tr><td>看</td><td><b>苏格兰 NHS</b></td><td>AI 辅助乳腺钼靶读片</td><td>多查出 12% 的癌症</td><td><a href="https://www.abdn.ac.uk/news/22964/">阿伯丁大学</a></td></tr>
+          <tr><td>看</td><td><b>德国乳腺筛查</b></td><td>46 万女性的真实世界研究</td><td>癌症检出率 +17.6%</td><td><a href="https://www.nature.com/articles/s41591-024-03408-6">Nature Medicine</a></td></tr>
+          <tr><td>看</td><td><b>GE 航空</b></td><td>AI 辅助发动机叶片孔探</td><td>3 小时→1.5 小时</td><td><a href="https://www.geaerospace.com/news/press-releases/ge-aerospace-deploys-ai-driven-inspection-tool-maximize-narrowbody-engine-time-wing">GE</a></td></tr>
+          <tr><td>看</td><td><b>东航技术</b></td><td>AI 孔探、零件错漏装检测机器人</td><td>缺陷识别准确率 95%+；30 分钟完成巡检</td><td><a href="http://www.caacnews.com.cn/1/6/202510/t20251025_1390824.html">中国民航网</a></td></tr>
+          <tr><td>看</td><td><b>南方电网</b></td><td>"大瓦特"识别巡检照片</td><td>每张 30 秒→80 毫秒</td><td><a href="https://www.csg.cn/xwzx/2024/gsyw/202408/t20240820_342231.html">南方电网</a></td></tr>
+          <tr><td>算/预测</td><td><b>达美航空</b></td><td>预测性维护（空客 Skywise）</td><td>机务取消 5,600+ 次→55 次（2010→2018）</td><td><a href="https://web.archive.org/web/20250217000257/https://deltatechops.com/delta-techops-expanding-predictive-maintenance-capabilities-with-new-airbus-partnership/">Delta</a></td></tr>
+          <tr><td>算/预测</td><td><b>易捷航空</b></td><td>预测性维护</td><td>2024 年 7、8 月避免 79 次取消</td><td><a href="https://aircraft.airbus.com/en/newsroom/news/2024-10-keeping-the-fleet-flying">空客</a></td></tr>
+          <tr><td>算/预测</td><td><b>中国商飞</b></td><td>"东方·御风"气动仿真大模型</td><td>10 分钟→25 秒</td><td><a href="https://www.guancha.cn/economy/2022_09_05_656631.shtml">观察者网</a></td></tr>
+          <tr><td>算/预测</td><td><b>NASA · 空客</b></td><td>AI 生成式设计结构件</td><td>最多减重 2/3；A320 隔板轻 45%</td><td><a href="https://www.nasa.gov/science-research/nasa-turns-to-ai-to-design-mission-hardware/">NASA</a></td></tr>
+          <tr><td>算/预测</td><td><b>阿拉斯加航空</b></td><td>AI 推荐航路</td><td>2023 年省油 120 万加仑</td><td><a href="https://news.alaskaair.com/sustainability/how-ai-is-helping-alaska-airlines-plan-better-flight-routes-and-lower-emissions/">阿拉斯加航空</a></td></tr>
+          <tr><td>算/预测</td><td><b>谷歌 × 美国航空</b></td><td>AI 预测尾迹云，飞行员调整高度</td><td>尾迹云减少 54%</td><td><a href="https://news.aa.com/news/news-details/2023/American-Airlines-participates-in-first-of-its-kind-research-on-contrail-avoidance-CORP-OTH-08/default.aspx">美国航空</a></td></tr>
+          <tr><td>算/预测</td><td><b>华为盘古 · ECMWF</b></td><td>AI 天气预报</td><td>快 1 万倍；能耗约 1/1000</td><td><a href="https://www.nature.com/articles/s41586-023-06185-3">Nature</a></td></tr>
+          <tr><td>算/预测</td><td><b>国家电网</b></td><td>光明电力大模型</td><td>省级日前负荷预测精度 98.18%</td><td><a href="https://finance.sina.com.cn/jjxw/2026-07-17/doc-iniiaxpe1401928.shtml">中国电力新闻网</a></td></tr>
+          <tr><td>算/预测</td><td><b>通威太阳能</b></td><td>灯塔工厂 50 多个 AI 应用</td><td>缺陷率 −41%，转换成本 −37%</td><td><a href="https://www.miragenews.com/wef-adds-12-sites-to-2025-global-lighthouse-1534418/">WEF</a></td></tr>
+          <tr><td>专家</td><td><b>客服研究（5,179 人）</b></td><td>AI 对话助手</td><td>新手 +34%，平均 +14%</td><td><a href="https://www.nber.org/papers/w31161">NBER</a></td></tr>
+          <tr><td>专家</td><td><b>哈佛 × BCG（758 人）</b></td><td>咨询顾问使用 AI</td><td>快 25.1%；边界外任务正确率 −19 个点</td><td><a href="https://www.hbs.edu/faculty/Pages/item.aspx?num=64700">HBS</a></td></tr>
+          <tr><td>专家</td><td><b>微软 MAI-DxO</b></td><td>疑难病例诊断</td><td>83.2% vs 全科医生 36.1%</td><td><a href="https://www.techtimes.com/articles/329478/20261026/microsoft-ai-beats-physicians-diagnosis-83-accuracy-lower-cost-science.htm">Science</a></td></tr>
+          <tr><td>专家</td><td><b>患者家庭</b></td><td>美国男孩 Alex、英国女婴 Lily 借 AI 找到诊断方向</td><td>最终由医生确诊</td><td><a href="https://www.bbc.co.uk/news/articles/cm4g5yp0ng85o">BBC</a></td></tr>
+          <tr><td>专家</td><td><b>世界银行</b></td><td>尼日利亚 AI 家教实验</td><td>6 周 ≈ 常规约 1.5 年</td><td><a href="https://voxdev.org/topic/education/how-ai-tutors-improved-learning-nigeria">VoxDev</a></td></tr>
+          <tr><td>专家</td><td><b>Google · Apple</b></td><td>实时语音翻译</td><td>63 种语言，延迟约 2 秒</td><td><a href="https://workspaceupdates.googleblog.com/2026/10/real-time-speech-translation-in-google-Meet-expands-to-63-languages-with-automatic-language-detection.html">Google</a></td></tr>
+          <tr><td>专家</td><td><b>UC Davis · Be My Eyes</b></td><td>帮渐冻症患者找回声音；帮盲人"看见"</td><td>解码准确率 97.5%</td><td><a href="https://health.ucdavis.edu/news/headlines/new-brain-computer-interface-allows-man-with-als-to-speak-again/2024/08">UC Davis</a></td></tr>
+          <tr><td>干活</td><td><b>OpenAI GDPval</b></td><td>44 个职业真实任务对比</td><td>83% 不输行业专家</td><td><a href="https://openai.com/index/introducing-gpt-5-4/">OpenAI</a></td></tr>
+          <tr><td>干活</td><td><b>Google · 亚马逊</b></td><td>AI 写代码、升级系统</td><td>Google 75% 新代码由 AI 编写；亚马逊省 4,500 人年</td><td><a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/cloud-next-2026-sundar-pichai/">Google</a></td></tr>
+          <tr><td>干活</td><td><b>Waymo · 萝卜快跑</b></td><td>无人驾驶出租车</td><td>每周 50 万单；累计 2,200 万单+</td><td><a href="https://techcrunch.com/2026/09/24/waymo-is-scaling-fast-heres-what-the-fleet-data-shows/">TechCrunch</a></td></tr>
+          <tr><td>干活</td><td><b>NASA JPL</b></td><td>AI 规划火星车路线</td><td>2025-12 行驶约 400 米</td><td><a href="https://www.anthropic.com/features/claude-on-mars">Anthropic</a></td></tr>
+          <tr><td>干活</td><td><b>航天科技集团 · 之江实验室</b></td><td>大模型部署到在轨卫星</td><td>12 星、80 亿参数、10 个模型在轨验证</td><td><a href="https://www.spacechina.com/n25/n2014789/n2014804/c4702521/content.html">航天科技</a></td></tr>
+          <tr><td>干活</td><td><b>DARPA</b></td><td>AI 驾驶 F-16 与人类真机空战</td><td>首次真机测试，未公布胜负</td><td><a href="https://www.darpa.mil/about/innovation-timeline/ace">DARPA</a></td></tr>
+          <tr><td>科学</td><td><b>DeepMind</b></td><td>AlphaFold 蛋白质结构预测</td><td>2 亿种结构，2024 诺贝尔化学奖</td><td><a href="https://www.nobelprize.org/prizes/chemistry/2024/press-release/">诺贝尔奖</a></td></tr>
+          <tr><td>科学</td><td><b>Google · OpenAI</b></td><td>奥赛金牌；推翻 Erdős 猜想</td><td>35/42 分；1946 年的猜想被推翻</td><td><a href="https://openai.com/index/model-disproves-discrete-geometry-conjecture/">OpenAI</a></td></tr>
+          <tr><td>科学</td><td><b>DeepMind GNoME</b></td><td>发现新晶体材料</td><td>220 万种，736 种已合成</td><td><a href="https://deepmind.google/discover/blog/millions-of-new-materials-discovered-with-deep-learning/">DeepMind</a></td></tr>
+          <tr><td>科学</td><td><b>英矽智能</b></td><td>AI 设计的肺纤维化新药</td><td>二期临床肺活量 +98.4 ml</td><td><a href="https://www.nature.com/articles/s41591-025-03743-2">Nature Medicine</a></td></tr>
+          <tr><td>科学</td><td><b>MIT</b></td><td>AI 筛选新抗生素</td><td>近 7,000 种化合物不到 2 小时</td><td><a href="https://news.mit.edu/2023/using-ai-scientists-combat-drug-resistant-infections-0525">MIT</a></td></tr>
+          <tr><td>教训</td><td><b>Klarna</b></td><td>AI 客服替代人工</td><td>一个月顶 700 人；一年后因质量下降招回人工</td><td><a href="https://www.entrepreneur.com/business-news/klarna-ceo-reverses-course-by-hiring-more-humans-not-ai/491396">Entrepreneur</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="sources" data-chapter="附录" data-title="资料说明">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker">资料说明</div>
+      <h2>数据从哪里来</h2>
+    </header>
+    <div class="grid g-3">
+      <div class="card"><div class="label">时间</div><p>资料截至 2026 年 11 月 6 日。AI 变化很快，部分数字几个月后可能就会更新。</p></div>
+      <div class="card"><div class="label">来源</div><p>优先采用官方公告、学术论文（Nature、Science 等）、政府网站和权威媒体。每页底部和案例库都附了原始链接，部分海外网站在国内需要特殊网络才能打开。</p></div>
+      <div class="card"><div class="label">口径</div><p>企业自己公布的数据（如节省的工作量）已在正文注明。AI 和人的对比都说明了比较对象，例如"全科医生"而不是"专科专家"。</p></div>
+      <div class="card"><div class="label">综合报告</div><p><a href="https://hai.stanford.edu/ai-index/2026-ai-index-report">斯坦福 AI Index 2026</a>（有官方中文版）· <a href="https://metr.org/time-horizons/">METR</a> · <a href="https://epoch.ai/">Epoch AI</a> · <a href="https://finance.sina.com.cn/tech/roll/2026-09-29/doc-initphzz2880083.shtml">CNNIC 2026</a></p></div>
+      <div class="card"><div class="label">图片</div><p>来自 Wikimedia Commons（CC BY 4.0 或公有领域）、NASA 和中国民航网，均注明了作者或出处。</p></div>
+      <div class="card"><div class="label">演示</div><p>页面中没有虚构的对话或数据，所有数字都能在对应来源中找到。</p></div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

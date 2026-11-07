@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>航天里的 AI：从图纸到深空</title>
+<meta name="description" content="写给没有技术背景的朋友：AI 在航天设计、制造、在轨运行、遥感、深空探测、空间科学和航空国防里的真实案例、实现方式与难点。资料截至 2026 年 11 月。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="backdrop" aria-hidden="true"></div>
+
+<nav class="toc" aria-label="目录">
+  <a class="toc-back" href="index.html">← AI 到底有什么用</a>
+  <a class="toc-brand" href="#cover">航天里的 AI<span>专题 · 从图纸到深空</span></a>
+  <div class="toc-progress"><div class="toc-progress-track"><div class="toc-progress-fill"></div></div><span class="toc-progress-text">01 / 01</span></div>
+  <div class="toc-scroll"><ol class="toc-list"></ol></div>
+  <div class="toc-hint">键盘 <kbd>↑</kbd> <kbd>↓</kbd> 翻页 · 点 <kbd>›</kbd> 展开或收起</div>
+</nav>
+
+<div class="topbar">
+  <button type="button" aria-label="打开目录">目录</button>
+  <span class="topbar-title"></span>
+  <span class="topbar-count"></span>
+  <i class="topbar-progress"></i>
+</div>
+
+<main>
+
+<!-- ==================== 导读 ==================== -->
+<section class="slide cover space-cover" id="cover" data-chapter="导读" data-title="封面">
+  <div class="slide-inner">
+    <div class="kicker reveal">专题 · AI 现状报告 · 2026 年 11 月</div>
+    <h1 class="reveal d1">航天里的 AI<br><em class="hl">从图纸到深空</em></h1>
+    <p class="lede reveal d2">从设计、制造，到在轨运行、看地球，再到深空探测和空间科学，逐个环节看 AI 走到了哪一步：用在哪里、怎么做到的、还难在哪里。每个环节两页，先讲案例，再讲原理。</p>
+    <ol class="cover-map reveal d3" aria-label="专题的 7 个环节">
+      <li><span class="phase">地面研制</span><b>设计仿真</b><b>制造测试</b></li>
+      <li><span class="phase">在轨应用</span><b>在轨运行</b><b>遥感</b></li>
+      <li><span class="phase">深空与科学</span><b>深空探测</b><b>空间科学</b></li>
+      <li><span class="phase">延伸</span><b>航空国防</b></li>
+    </ol>
+    <div class="cover-meta reveal d4">
+      <span><b>7</b> 个环节</span>
+      <span><b>38</b> 个公开案例</span>
+      <span><b>30+</b> 种实现方法可点开细看</span>
+      <span>资料截至 <b>2026-11-07</b></span>
+    </div>
+  </div>
+</section>
+
+<section class="slide" id="space" data-chapter="导读" data-title="总览：走到了哪一步">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天专题</div>
+      <h2 class="reveal d1">从图纸到深空，AI 已经进了航天的<em class="hl">每一个环节</em></h2>
+      <p class="lede reveal d2">但"进了"不等于"在用"。把 38 个公开案例按环节和落地程度排开：最成熟的是在轨和深空的自主运行，设计制造多数还在试验，大模型上天刚刚起步。</p>
+    </header>
+    <div class="m-stack reveal d2" aria-label="38 个案例中，在用 16 个，试验 14 个，研究 8 个">
+      <i class="t-use" style="flex:16">已在使用 <b>16</b></i><i class="t-try" style="flex:14">试验验证 <b>14</b></i><i class="t-res" style="flex:8">研究 <b>8</b></i>
+    </div>
+    <div class="maturity reveal d3">
+      <div class="m-head"><span>环节</span><span><i class="tag t-res">研究</i></span><span><i class="tag t-try">试验验证</i></span><span><i class="tag t-use">已在使用</i></span></div>
+      <div class="m-row"><b>设计仿真</b><span data-stage="研究">诺格 AI 速算喷管</span><span data-stage="试验">LEAP 71 算法设计发动机 · 临界航天"Prime一行"</span><span data-stage="在用">NASA AI 设计结构件</span></div>
+      <div class="m-row"><b>制造测试</b><span data-stage="研究">Relativity 打印缺陷检测</span><span data-stage="试验">八院 800 所焊缝射线图像判读</span><span data-stage="在用">149 厂数据追溯 · 八院遥测判读 · "天玄"行业大模型</span></div>
+      <div class="m-row"><b>在轨运行</b><span data-stage="研究">ESA 碰撞预警自动化</span><span data-stage="试验">三体计算星座 · "天玄·千河" · 国星宇航 · NASA 动态拍摄 · Φsat-2 · 太空算力</span><span data-stage="在用">Starlink 自主避碰 · 寰宇卫星健康预警</span></div>
+      <div class="m-row"><b>遥感</b><span data-stage="研究">武汉大学 SkySense++</span><span data-stage="试验">"空天·灵眸" · "后土"</span><span data-stage="在用">AlphaEarth · Prithvi</span></div>
+      <div class="m-row"><b>深空探测</b><span data-stage="研究" class="empty">—</span><span data-stage="试验">AI 规划火星车路线</span><span data-stage="在用">毅力号自主驾驶 · 天问/嫦娥自主着陆 · DART 自主撞击</span></div>
+      <div class="m-row"><b>空间科学</b><span data-stage="研究">ExoMiner · Surya · 嫦娥撞击坑</span><span data-stage="试验" class="empty">—</span><span data-stage="在用">FAST 脉冲星搜索 · 鲁宾天文台告警分拣</span></div>
+      <div class="m-row"><b>航空国防</b><span data-stage="研究">空客 ATTOL 自主起降</span><span data-stage="试验">X-62A AI 空战 · CCA 无人僚机</span><span data-stage="在用">Maven 图像识别 · Skywise · GenAI.mil</span></div>
+    </div>
+    <p class="say reveal d4"><b>打个比方</b>AI 在航天里像一批刚入职的新人：在"看、算、躲"这类规则清楚的岗位上已经独当一面；设计和制造的岗位还在试用期，每一步都有老师傅把关。</p>
+    <p class="note reveal d5"><b>怎么读这个专题：</b>按"地面研制 → 在轨应用 → 深空与科学"的顺序，最后是航空国防。每个环节两页：先看"案例"，再看"原理"，原理页的卡片可以点开看做法、数字和局限。最后一页总结 AI 在航天里的好处和难点。用目录可以随时跳到任何一页。</p>
+    <div class="src reveal d5">说明："在用"指已进入实际任务或产品；"试验"指在真实环境中验证过但未常态化；"研究"指论文、原型或地面演示。来源见各页底部。</div>
+  </div>
+</section>
+
+<section class="slide" id="space-design" data-phase="地面研制" data-kind="案例" data-chapter="设计仿真" data-title="人定目标，算法出方案">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 设计仿真</div>
+      <h2 class="reveal d1">设计：人定目标，<em class="hl">算法几分钟出方案</em></h2>
+      <p class="lede reveal d2">发动机、结构件、喷管，过去要"画图、仿真、改图"反复几个月。现在工程师给出推力、重量、材料这些要求，算法自动生成方案并估算性能，人负责挑选和试车验证。</p>
+    </header>
+    <div class="grid g-wide-left">
+      <div class="card reveal d2">
+        <div class="who-line"><i class="tag t-res">研究</i>诺格 × Luminary × NVIDIA · 2025 年 10 月</div>
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"评估一个推力器喷管方案要多久","max":3000,"usable":56,"items":[{"label":"传统流体仿真","value":3000,"display":"AI 的 3,000 倍以上"},{"label":"AI 速算模型","sub":"一块显卡","value":1,"display":"2–5 秒","hi":true}]}</script></div>
+        <p style="margin-top:10px">AI 先从大量仿真结果里学会规律，之后每个新方案几秒钟就能估出性能，中位误差约 5%。工程师一天之内能比较成千上万个方案，再把最好的几个交给传统仿真精算。</p>
+      </div>
+      <div class="card case reveal d3">
+        <div class="thumb tall"><img src="img/nasa-evolved.jpg" alt="NASA 用 AI 设计的结构件" loading="lazy" style="object-position:center 72%"></div>
+        <div class="who"><i class="tag t-use">在用</i>NASA 戈达德航天中心</div>
+        <div class="what">AI 设计探测任务的结构件</div>
+        <div class="fig">2/3<small>最多减重</small></div>
+        <p>1–2 小时出设计，应力集中约降到原来的 1/10，已用于在研的探测任务。</p>
+      </div>
+    </div>
+    <div class="grid g-2 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-try">试验</i>LEAP 71（迪拜）</div><div class="what">算法自动设计火箭发动机，从提要求到点火</div><div class="fig">&lt;3<small>周</small></div><p>2025 年 12 月，两台 20 千牛甲烷发动机试车成功，燃烧效率超过 93%。这套软件是按工程规则编写的计算模型，不是大模型。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-try">试验</i>北京科学智能研究院 × 临界航天</div><div class="what">AI 智能体串起"设计、仿真、制造、试车"</div><div class="fig">2<small>周，构想到实物</small></div><p>2026 年发布的"Prime一行"，发布方称计算效率提升约千倍，已完成冷态、热态试验闭环。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>过去是工程师一笔一笔画图再送去算；现在像给 AI 下一张"任务书"，它一口气交回几十个方案，工程师当评委。</p>
+    <div class="src reveal d5">来源：<a href="https://news.northropgrumman.com/spacecraft/northrop-grumman-collaborates-on-ai-designed-spacecraft-propulsion-element">诺格 2025-10</a> · <a href="https://www.luminarycloud.com/blog/a-new-structural-advantage-how-physics-ai-is-transforming-spacecraft-design-at-northrop-grumman">Luminary Cloud</a> · <a href="https://www.nasa.gov/technology/goddard-tech/nasa-turns-to-ai-to-design-mission-hardware/">NASA 2023-02</a> · <a href="https://leap71.com/2025/12/11/leap-71-hot-fires-two-orbital-class-methalox-engines-designed-autonomously-by-noyron/">LEAP 71 2025-12</a> · <a href="https://finance.sina.com.cn/jjxw/2026-06-12/doc-iniccnfv0273398.shtml">人民日报客户端 2026-06</a> · 照片：NASA</div>
+  </div>
+</section>
+
+<section class="slide" id="space-design-how" data-phase="地面研制" data-kind="原理" data-chapter="设计仿真" data-title="四种路子">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 设计仿真 · 怎么做到的</div>
+      <h2 class="reveal d1">同叫"AI 设计"，背后是<em class="hl">四种不同的路子</em></h2>
+      <p class="lede reveal d2">共同点是把"画图、仿真、改图"这个要转几十圈的循环交给电脑高速地转。人负责三件事：定目标、挑结果、做试验。</p>
+    </header>
+    <div class="section-label reveal d2"><span>一般流程</span></div>
+    <ol class="pipeline reveal d2">
+      <li class="human"><b>定目标</b><span>推力、载荷、安装点、哪里不许有材料</span></li>
+      <li><b>备"教材"或"规则"</b><span>先跑几千次精确仿真，或把专家经验写成代码</span></li>
+      <li><b>批量出方案</b><span>几分钟到几小时，生成成百上千个</span></li>
+      <li><b>快速估算、筛选</b><span>每个方案几秒钟估出性能</span></li>
+      <li class="human"><b>审形状、精算</b><span>工程师看方案，传统仿真和有限元复核</span></li>
+      <li class="human"><b>制造、试车</b><span>3D 打印或数控铣，热试车验证</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>四种路子 · 点开看做法、数字和局限</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid reveal d3">
+      <details class="more">
+        <summary><span class="term">代理模型：先学再猜<small>Surrogate Model · 物理 AI</small></span><span class="gist">先用几千次精确仿真当"教材"，AI 学会"什么形状对应什么气流"，以后几秒钟就能估出新方案的性能。</span><span class="on-case">案例 · 诺格推力器喷管</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>先用风洞冷流实验数据校准流体仿真软件（CFD），确保"教材"本身是准的。</li>
+            <li>在长度、面积比、喉部半径、室压 4 个参数上均匀撒点，每个点算一次高精度仿真，共约 2,000 次。</li>
+            <li>用 NVIDIA 的神经算子模型（DoMINO）学习，九成数据训练、一成留作检验。</li>
+            <li>部署在一块普通显卡上：工程师改一下形状，2–5 秒看到流场。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 2,000 次</b>精确仿真当教材</li>
+            <li><b>2–5 秒</b>一次估算，原来要几小时</li>
+            <li><b>5.2%</b>中位误差，最好的 1.6%</li>
+            <li><b>0 件</b>截至 2026 年 3 月尚无实物</li>
+          </ul>
+          <p class="limit">只在"学过"的参数范围内可靠，超出范围准不准没有交代；发布方自己称之为概念验证。数字均为企业自述。</p>
+          <p class="more-src">来源：<a href="https://luminary.ai/blog/a-new-structural-advantage-how-physics-ai-is-transforming-spacecraft-design-at-northrop-grumman">Luminary Cloud 2025-10</a> · <a href="https://docs.nvidia.com/physicsnemo/latest/physicsnemo/examples/cfd/external_aerodynamics/domino/README.html">NVIDIA DoMINO 文档</a> · <a href="https://digital.nationaldefensemagazine.org/march-2026/page-28">National Defense 2026-03</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">生成式设计：按约束"长"出来<small>Generative Design · 拓扑优化</small></span><span class="gist">工程师只画出"哪里要装螺栓、要扛多大力、哪里不能挡光路"，软件自动长出最省料的骨头状结构。</span><span class="on-case">案例 · NASA 戈达德结构件</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>画出必须保留的安装面，以及光路、装配时手要伸进去的禁区。</li>
+            <li>输入载荷和 NASA 标准（例如螺栓孔离边缘至少 1.5 倍孔径）。</li>
+            <li>软件（Autodesk Fusion 360）约每分钟迭代一次，同时做受力分析，1–2 小时出方案；人工设计要 1–2 周迭代一次。</li>
+            <li>工程师审形状。设计者原话："算法需要人眼"，否则有时会做得太薄。</li>
+            <li>按 NASA 流程做有限元精算，再交给供应商五轴数控铣或 3D 打印。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>2 天 → 1 小时</b>两名专家 vs AI（望远镜支架）</li>
+            <li><b>&lt;48 小时</b>从需求到铣好的金属件</li>
+            <li><b>60+ 项</b>已有的应用</li>
+            <li><b>10 倍+</b>开发时间和成本降低</li>
+          </ul>
+          <p class="limit">只适用于金属、塑料这类各向同性材料，复合材料不行；目前主要做中小型支架。形状像"外星骨头"，一些工程师看着不放心。这是传统优化算法，不是大模型。</p>
+          <p class="more-src">来源：<a href="https://www.nasa.gov/technology/goddard-tech/nasa-turns-to-ai-to-design-mission-hardware/">NASA 2023-02</a> · <a href="https://science.nasa.gov/wp-content/uploads/2024/03/evolved-structures-ryan-mcclelland.pdf">NASA 演化结构件报告</a> · <a href="https://www.nasa.gov/podcasts/small-steps-giant-leaps/small-steps-giant-leaps-episode-92-evolved-structures/">NASA 播客 2022-09</a> · <a href="https://develop3d.com/ai/text-to-spaceship/">DEVELOP3D 2025-02</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">计算工程：把专家经验写成程序<small>Computational Engineering</small></span><span class="gist">不让 AI"学"，而是把物理公式、设计规则、制造约束全写成代码；输入推力，程序直接算出能打印的发动机。</span><span class="on-case">案例 · LEAP 71 发动机</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>工程师给出规格：推力、推进剂、室压。</li>
+            <li>软件 Noyron 按写好的规则算出几何形状、制造文件和性能预测。同样的输入一定得到同样的输出。</li>
+            <li>用铜铬锆高温合金整体 3D 打印燃烧室和喷管。</li>
+            <li>热试车，试车数据再用来修正规则。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>&lt;3 周</b>两台 20 千牛甲烷发动机，从规格到点火</li>
+            <li><b>93%+</b>燃烧效率（钟形喷管）</li>
+            <li><b>每 4 周</b>近 18 个月平均热试一台新发动机</li>
+            <li><b>1 次</b>塞式喷管因启动问题只点了一次火</li>
+          </ul>
+          <p class="limit">每一类零件的规则都要专家逐条写进程序，换新品类成本高；软件闭源。数字为企业自述。</p>
+          <p class="more-src">来源：<a href="https://leap71.com/2025/12/11/leap-71-hot-fires-two-orbital-class-methalox-engines-designed-autonomously-by-noyron/">LEAP 71 2025-12</a> · <a href="https://leap71.com/2023/10/18/introducing-picogk-an-open-source-kernel-for-computational-engineering/">PicoGK 开源几何内核</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">智能体：把一串工具自动串起来<small>AI Agent</small></span><span class="gist">设计、仿真、优化、出试验方案、回收试验数据，原来每一步换一拨人；现在由一个 AI 程序自动调度，人只提需求、看试车结果。</span><span class="on-case">案例 ·"Prime一行"</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>按需求自动生成设计，做参数化建模。</li>
+            <li>调用燃烧仿真平台 DeepFlame 等，把燃烧、流动、结构放在一起算。</li>
+            <li>多目标优化，在推力、重量、冷却之间权衡，筛出候选方案。</li>
+            <li>生成试验方案，金属 3D 打印，做冷态和热态试验。</li>
+            <li>试验误差回传，进入下一轮。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 2 周</b>从构想到实物验证</li>
+            <li><b>约千倍</b>计算效率提升（比较基准未公开）</li>
+            <li><b>2.5 吨</b>推力的发动机正在试制</li>
+          </ul>
+          <p class="limit">除 DeepFlame 外，各模块用了什么模型和软件都没有公开；信息主要来自发布方和融资新闻稿，不同报道对合作单位的说法也不一致。</p>
+          <p class="more-src">来源：<a href="http://finance.people.com.cn/n1/2026/0615/c1004-40740484.html">人民网 2026-06</a> · <a href="https://finance.sina.com.cn/jjxw/2026-06-12/doc-iniccnfv0273398.shtml">人民日报客户端 2026-06</a> · <a href="https://news.pedaily.cn/202607/566378.shtml">投资界 2026-07</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>新闻里都叫"AI 设计"，但 NASA 用的是拓扑优化，LEAP 71 是写好规则的程序，都不是聊天用的大模型。真正靠"学"的是代理模型，所以它也最需要用实验去验证。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-make" data-phase="地面研制" data-kind="案例" data-chapter="制造测试" data-title="AI 当质检员">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 制造与测试</div>
+      <h2 class="reveal d1">制造测试：AI 先上岗当<em class="hl">"质检员"和"判读员"</em></h2>
+      <p class="lede reveal d2">焊缝射线图像、零件缺陷、试验遥测曲线，量大、标准明确、看久了容易漏，是 AI 在航天工厂里最先落地的地方。</p>
+    </header>
+    <div class="grid g-wide-left">
+      <div class="card reveal d2">
+        <div class="who-line"><i class="tag t-try">试验</i>航天科技集团八院 800 所</div>
+        <h3>AI 判读火箭焊缝的射线图像</h3>
+        <p>贮箱焊缝要逐段拍射线图像（相当于给焊缝拍 X 光片），再由检验员逐张判读，每年要审 25 万张以上。AI 用 2014 年以来积累的 30 多万张图像训练后，识别缺陷的准确率提高到 90% 以上，已在长征四号丙、长征五号、长征六号的产品上做了双盲测试（AI 和人分别判读、互不知情，再对答案）。</p>
+        <div class="grid g-2 mini-stats" style="gap:10px;margin-top:12px">
+          <div class="stat"><div class="num"><span class="count" data-to="30">30</span><small>万张+</small></div><p>训练用的射线图像</p></div>
+          <div class="stat"><div class="num accent-num"><span class="count" data-to="90">90</span><small>%+</small></div><p>缺陷识别准确率</p></div>
+        </div>
+      </div>
+      <div class="stack">
+        <figure class="photo h-220 reveal d3"><img src="img/cz5.jpg" alt="长征五号火箭垂直转运" loading="lazy"><figcaption>长征五号转运 · 中国新闻社，CC BY 3.0</figcaption></figure>
+        <div class="card myth reveal d4"><div class="label">常见误解</div><p><b>SpaceX 火箭回收靠的不是 AI。</b>猎鹰 9 号着陆时用的是箭上实时求解的最优化算法，属于传统控制方法。不是所有"自动"都是 AI。</p></div>
+      </div>
+    </div>
+    <div class="grid g-3 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">在用</i>上海航天设备制造总厂</div><div class="what">质量问题追溯</div><div class="fig"><span class="from">几天 →</span> 5<small>分钟</small></div><p>主要靠十几年的数据贯通，每发火箭都有完整的"电子档案"。工厂称之为 AI 赋能，详见下一页。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-use">初步应用</i>航天科技集团</div><div class="what">"天玄"航天行业大模型</div><div class="fig">45<small>家单位已部署</small></div><p>2026 年 2 月发布，对接 108 个场景、联合开发 75 个应用，用于卫星判读、故障归零分析、在轨运维等。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-use">在用</i>航天科技集团八院控制所</div><div class="what">火箭测试数据智能判读</div><p>用机器学习判读长征六号改火箭伺服、惯性器件的测试数据，替代人工逐条比对曲线。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>AI 像一个看过几十万张片子的老检验员，先把可疑的挑出来；放行签字仍然由人负责。</p>
+    <div class="src reveal d5">来源：<a href="https://www.spacechina.com/n25/n2014789/n2014809/c2996358/content.html">航天科技集团 2020-08</a> · <a href="http://larsblackmore.com/nae_bridge_2016.pdf">SpaceX 着陆算法（Blackmore 2016）</a> · <a href="https://export.shobserver.com/baijiahao/html/1099486.html">上观新闻 2026-04</a> · <a href="https://www.spacechina.com/n25/n2018089/n2530233/c4549761/content.html">航天科技集团 2026-02</a> · <a href="https://www.spacechina.com/n25/n2014789/n2014809/c4375981/content.html">航天科技集团 2025-07</a> · 照片：中国新闻社，Wikimedia Commons</div>
+  </div>
+</section>
+
+<section class="slide" id="space-make-how" data-phase="地面研制" data-kind="原理" data-chapter="制造测试" data-title="看图像、看曲线、查经验">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 制造测试 · 怎么做到的</div>
+      <h2 class="reveal d1">看图像、看曲线、查经验：<em class="hl">三类活，三种做法</em></h2>
+      <p class="lede reveal d2">工厂里的 AI 分三类：在图像里找缺陷，用深度学习视觉；在遥测曲线里找异常，用仿真比对加机器学习；在历年故障经验里找答案，用行业大模型。三类的前提相同，都要先有干净、连通的数据。</p>
+    </header>
+    <div class="section-label reveal d2"><span>以 800 所焊缝判读为例 · 据其 2020 年专利描述的流程</span></div>
+    <ol class="pipeline reveal d2">
+      <li><b>拍图</b><span>射线源伸进舱体、成像板贴在舱外，数字图像自动上传</span></li>
+      <li><b>有没有缺陷</b><span>分类网络先把正常的图筛掉</span></li>
+      <li><b>缺陷在哪</b><span>目标检测网络框出位置</span></li>
+      <li><b>是什么、几级</b><span>判断气孔、夹渣、未焊透，对照标准样图评级</span></li>
+      <li><b>出结果</b><span>专利称可"部分或全部代替人工评片"，实际怎么分工未公开</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>四类做法 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid reveal d3">
+      <details class="more">
+        <summary><span class="term">深度学习视觉检测<small>CNN · Object Detection</small></span><span class="gist">用几十万张标注过的历史图像教会电脑"什么样算缺陷"，判读时分三步：有没有、在哪、是什么。</span><span class="on-case">案例 · 八院 800 所焊缝射线图像</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <p>2014 年起，焊缝检测从胶片改为数字成像板直接出图，积累了 30 多万张数字射线图像，成为训练数据。专利中的三段式方案是：卷积神经网络（VGG、ResNet 一类）判断有无缺陷，目标检测网络（YOLO、Faster R-CNN 一类）框出位置，再用分类网络判定类型和等级。上线前在长征四号丙、长征五号、长征六号上做了人机双盲对比。</p>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>30 万张+</b>训练用的历史图像</li>
+            <li><b>90%+</b>双盲测试准确率</li>
+            <li><b>28.6 → 14.3 秒</b>每张判读用时（500 张抽样，人 vs 机）</li>
+            <li><b>25 万 → 50 万张</b>每年要审的量（"十三五"到"十四五"预计）</li>
+          </ul>
+          <p class="limit">专利是方案描述，不等于实际部署的系统；90% 的统计口径（按张还是按缺陷）没有说明；人机具体怎么分工，公开资料没有写。</p>
+          <p class="more-src">来源：<a href="https://www.spacechina.com/n25/n2014789/n2014809/c2996358/content.html">中国航天报 2020-08</a> · <a href="https://patents.google.com/patent/CN112083017A/zh">专利 CN112083017A</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">遥测智能判读<small>镜像仿真 + Machine Learning</small></span><span class="gist">先用仿真算出"正常应该是什么样"的曲线，再和实测逐点比；机器学习从历史数据里学参数的变化规律，补上规则覆盖不到的异常。</span><span class="on-case">案例 · 八院控制所长征六号改</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>读入本发次火箭的装订数据。</li>
+            <li>"镜像仿真"复算出一条标准曲线，与实测数据精确比对。这一步是规则方法，不是机器学习。</li>
+            <li>机器学习从历次测试遥测中学习参数变化规律，提高判读覆盖面。</li>
+            <li>判读规则和判读参数分开管理，换发次时可以快速更新标准；自动生成报告。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>事后 → 实时</b>伺服、惯组数据从事后分析变为实时判读</li>
+            <li><b>90%</b>测试人员工作量降低（含自动化）</li>
+            <li><b>80%</b>在线验收时间节省（含自动化）</li>
+          </ul>
+          <p class="limit">用了什么算法、学了多少发次的数据、准确率多少，都没有公开；上面的数字大部分来自测试自动化，不全是机器学习的功劳。</p>
+          <p class="more-src">来源：<a href="https://www.spacechina.com/n25/n2014789/n2014809/c4375981/content.html">中国航天报 2025-07</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">行业大模型 + 知识库<small>Domain LLM · 类似 RAG 检索增强</small></span><span class="gist">把历年故障归零报告、故障模式清单整理入库；工程师描述问题，系统翻出相似的历史案例和处理建议。</span><span class="on-case">案例 ·"天玄"在 808 所</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>"天玄"1.0 是一组模型：开物（科学计算）、成务（任务规划、调用工具）、千河（遥感图文），加上行业数据集万卷。</li>
+            <li>808 所先定填报规范，各厂所整理归零报告、故障模式清单、技术风险清单，经专家评审。</li>
+            <li>清洗、校验后结构化入库，模型部署在本所自建的算力集群上，不连公网。</li>
+            <li>输入问题描述，平台匹配历史归零案例，推荐问题定位、原因和措施，由设计师和质量人员采纳或修改。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>108 个</b>对接的场景</li>
+            <li><b>45 家</b>初步应用的单位</li>
+            <li><b>2026-04</b>808 所平台正式上线</li>
+            <li><b>−50%</b>装配缺陷检测时间（808 所，视觉检测）</li>
+          </ul>
+          <p class="limit">底座模型和参数规模未公开。测评中出现过坐标转换正负号搞反、分不清"1.9""1.11"是日期还是数值这类错误，所以结论必须由人核对。</p>
+          <p class="more-src">来源：<a href="http://www.chinaspacenews.com.cn/n8/c5034/content.html">中国航天新闻网 2026-02</a> · <a href="https://www.spacechina.com/n25/n2018089/n2530233/c4549761/content.html">中国航天报 2026-02</a> · <a href="https://www.spacechina.com/n25/n2014789/n2014809/c4638661/content.html">中国航天报 2026-06</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">先打通数据，AI 才有米下锅<small>Digital Thread · 数据贯通</small></span><span class="gist">"质量追溯从几天到 5 分钟"主要靠十几年的数字化：每发火箭都有完整的过程数据包，跨系统一查到底。</span><span class="on-case">案例 · 上海航天设备制造总厂</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>2009 年起，逐步把物资、计划、供应链数字化。</li>
+            <li>2018 年生产管理系统上线，采集设备和工序数据。</li>
+            <li>每发火箭交付时附带完整数据包。</li>
+            <li>原材料出了问题，系统直接查到用在哪一发、哪个部段、在哪个仓库。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>几天 → 5 分钟</b>质量问题追溯</li>
+            <li><b>+40%</b>智能装备生产效率</li>
+            <li><b>60%+</b>AI 应用渗透率（企业说法）</li>
+          </ul>
+          <p class="limit">报道称"AI 赋能"，但描述的机制都是跨系统数据贯通，没有提到具体的 AI 算法。工厂下一步打算用多模态大模型做质检。</p>
+          <p class="more-src">来源：<a href="https://export.shobserver.com/baijiahao/html/1099486.html">上观新闻 2026-04</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>工厂里很多"智能化"成果，有不少功劳属于数字化和自动化。AI 要发挥作用，前提是数据已经采得到、存得下、连得通。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-orbit" data-phase="在轨应用" data-kind="案例" data-chapter="在轨运行" data-title="自己躲、自己想">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 在轨运行</div>
+      <h2 class="reveal d1">在轨：上万颗卫星自己躲碰撞，<em class="hl">开始"边拍边想"</em></h2>
+      <p class="lede reveal d2">卫星多到人盯不过来，躲碰撞、查故障只能交给自动系统。另一个新方向是把 AI 芯片和模型送上卫星，在天上直接处理数据，只把结论传回地面。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card reveal d2">
+        <div class="who-line"><i class="tag t-use">在用</i>SpaceX Starlink · 1 万多颗卫星</div>
+        <div class="chart" data-chart="line"><script type="application/json">{"title":"Starlink 卫星每半年自动躲避碰撞的次数","area":true,"height":260,"xMin":2021,"xMax":2026.6,"xTicks":[2021,2022,2023,2024,2025,2026],"yMax":220000,"margin":{"right":40},"yTicks":[{"value":0,"label":"0"},{"value":50000,"label":"5 万"},{"value":100000,"label":"10 万"},{"value":150000,"label":"15 万"},{"value":200000,"label":"20 万"}],"series":[{"name":"避碰机动次数","color":"series-1","points":[["2021-06",2219,"2021 上半年 · 2,219 次"],["2022-06",6873,"2021-12 至 2022-06 · 6,873 次"],["2023-05",25299,"2022-12 至 2023-05 · 25,299 次"],["2024-05",50000,"2023-12 至 2024-05 · 约 5 万次"],["2024-11",50666,"2024-06 至 2024-11 · 50,666 次"],["2025-05",144404,"2024-12 至 2025-05 · 144,404 次"],["2025-11",148696,"2025-06 至 2025-11 · 148,696 次"],["2026-05",207152,"2025-12 至 2026-05 · 207,152 次"]]}],"annotations":[{"point":7,"text":"约 20.7 万次","dx":-8,"dy":-14,"anchor":"end"}]}</script></div>
+        <p class="fine">SpaceX 称之为"自主避碰系统"。其间调低过触发阈值，增长不全是因为轨道变挤。</p>
+      </div>
+      <div class="card reveal d3">
+        <div class="who-line"><i class="tag t-try">试验</i>之江实验室"三体计算星座" · 12 颗计算卫星</div>
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"观测伽马射线暴：每天要传回地面的数据","max":10000,"usable":62,"items":[{"label":"传统做法","sub":"原始数据全部下传","value":10000,"display":"几百 MB"},{"label":"星上 AI 先判断","sub":"只传结论","value":1,"display":"几十 KB，约万分之一","hi":true}]}</script></div>
+        <p style="margin-top:10px">处理时间从几小时缩短到几秒，识别准确率 99%。星座上已部署 10 个 AI 模型，最大的两个有 80 亿参数，单星算力每秒 744 万亿次。</p>
+      </div>
+    </div>
+    <div class="grid g-4 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-try">在轨验证</i>航天科技集团</div><div class="what">"天玄·千河"太空 AI 基础模型</div><p>1.0 版已上注在轨星座稳定运行，2.0 版于 2026 年 9 月发布。</p></div>
+      <div class="card case reveal d3"><div class="who"><i class="tag t-try">试验</i>国星宇航</div><div class="what">把通用大模型送上卫星，地面提问、卫星回答</div><div class="fig">&lt;2<small>分钟</small></div><p>计划 2028 年内发射首批 100 颗算力卫星。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-try">试验</i>NASA 喷气推进实验室</div><div class="what">卫星先看云，再决定拍哪里</div><div class="fig">&lt;90<small>秒</small></div><p>全程无人干预，2025 年完成 8 次飞行试验，避免拍回一堆被云挡住的废片。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-use">在用</i>西安寰宇卫星测控</div><div class="what">AI 盯卫星"体检数据"，提前报警</div><div class="fig">98%<small>预警准确度</small></div><p>2024 年有效预警 200 余次（企业数据）。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>过去卫星是"只拍不想"的相机，拍完全部传回地面；现在开始像派到前线的侦察兵，自己判断，只发回结论。</p>
+    <div class="src reveal d5">来源：<a href="https://www.space.com/space-exploration/satellites/every-spacex-starlink-satellite-has-to-dodge-a-collision-almost-weekly-and-experts-fear-the-worst">Space.com 2026-07</a> 等转述 SpaceX 向 FCC 的半年报告 · <a href="http://www.news.cn/tech/20260213/269a5565afda44a48c527c05f9868cfb/c.html">新华社 2026-02</a> · <a href="https://www.spacechina.com/n25/n2014789/n2014804/c4702521/content.html">航天科技集团 2026-09</a> · <a href="https://www.stdaily.com/web/gdxw/2026-01/27/content_466695.html">科技日报 2026-01</a> · <a href="https://www.jpl.nasa.gov/news/how-nasa-is-testing-ai-to-make-earth-observing-satellites-smarter/">NASA JPL 2025</a> · <a href="https://www.sxdaily.com.cn/2025-03/21/content_11107437.html">陕西日报 2025-03</a></div>
+  </div>
+</section>
+
+<section class="slide" id="space-orbit-how" data-phase="在轨应用" data-kind="原理" data-chapter="在轨运行" data-title="自己躲、自己算">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 在轨运行 · 怎么做到的</div>
+      <h2 class="reveal d1">卫星上的"自主"分两种：<em class="hl">按规则躲，带 AI 芯片算</em></h2>
+      <p class="lede reveal d2">Starlink 自动避碰靠的是精确计算加规则，SpaceX 并不称之为 AI。另一类是把 AI 模型送上卫星，在天上直接处理数据。这一类受太空芯片限制最大：芯片要扛得住辐射，就得牺牲性能。</p>
+    </header>
+    <div class="section-label reveal d2"><span>Starlink 一次自动避碰</span></div>
+    <ol class="pipeline reveal d2">
+      <li><b>自己定轨</b><span>每颗卫星用导航信号算出自己未来几天在哪，约每小时公开一次</span></li>
+      <li><b>汇总预警</b><span>地面汇总美军雷达和各方的碰撞预警，发给卫星</span></li>
+      <li><b>星上重算</b><span>卫星用自己更准的位置预测，重算相撞概率</span></li>
+      <li><b>自动让开</b><span>超过千万分之三，在最近交会前 12 小时内自己点火</span></li>
+      <li class="human"><b>人工兜底</b><span>风险压不下来或卫星不能机动，交给值班操作员</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>六项技术 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid g-3 reveal d3">
+      <details class="more">
+        <summary><span class="term">自主避碰<small>Collision Avoidance · 非 AI</small></span><span class="gist">地面把"别的东西会在哪"发上卫星，卫星自己算撞上的概率，超过门槛就自己挪开。</span><span class="on-case">案例 · SpaceX Starlink</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>预警来源：美军太空监视雷达的筛查结果、其他运营商上传的星历、SpaceX 自建的光学观测。</li>
+            <li>地面汇总每个来源的最新预警，上注给卫星。</li>
+            <li>卫星用自己的导航定轨结果重算概率，自动新增、修改或取消机动，同时把太阳翼放平以缩小迎面面积。</li>
+            <li>用氩气作工质的电推进器（霍尔推力器）点火。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>千万分之三</b>触发机动的相撞概率，行业常用万分之一</li>
+            <li><b>1,000+ 次</b>官方称每天的避碰机动</li>
+            <li><b>约 46 次</b>每颗二代星每年机动次数</li>
+          </ul>
+          <p class="limit">每次躲完仍有残余风险，几十万次累积起来不可忽略。高层大气受太阳活动影响难以预测，卫星常在"躲幽灵"，消耗燃料、缩短寿命。</p>
+          <p class="more-src">来源：<a href="https://space-safety.starlink.com/docs/space-safety-articles/starlink_cola_conops/">Starlink 避碰运行文档</a> · <a href="https://docs.fcc.gov/public/attachments/DA-24-1193A1.pdf">FCC 2024-11</a> · <a href="https://www.space.com/space-exploration/satellites/every-spacex-starlink-satellite-has-to-dodge-a-collision-almost-weekly-and-experts-fear-the-worst">Space.com 2026-07</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">在轨计算星座<small>Space-based Computing</small></span><span class="gist">把数据中心级的计算机装上卫星，卫星之间用激光连成网，数据在天上算完，只把结论传回地面。</span><span class="on-case">案例 · 之江实验室"三体计算星座"</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>过去是"天感地算"：卫星只管拍，原始数据全部传回地面处理，受地面站和带宽限制。</li>
+            <li>现在"天数天算"：模型在地面训练好，通过测控链路"上注"到星上计算机，可以在轨更新。</li>
+            <li>以伽马暴为例：探测器持续采集，星上 80 亿参数的模型判断是不是伽马暴、属于哪类，只传回结论。</li>
+            <li>国内另有航天科技集团"天玄·千河"遥感模型，1.0 版已上注在轨星座运行。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>744 TOPS</b>单星最高算力</li>
+            <li><b>100 Gbps</b>星间激光链路最高速率</li>
+            <li><b>&lt;1/10</b>"天感地算"能传回的有效数据（项目方说法）</li>
+            <li><b>16 颗 · 25 个</b>2026 年 9 月在轨卫星和模型数</li>
+          </ul>
+          <p class="limit">难点有两个。一是对准：激光终端口径只有十几毫米，要在相距 1,500 公里、相对速度每秒 7 公里的情况下秒级锁定。二是可靠性：高能粒子会让芯片存储位翻转，甚至引发短路。散热和供电方案没有公开。</p>
+          <p class="more-src">来源：<a href="https://zqb.cyol.com/pc/content/202505/19/content_411109.html">中国青年报 2025-05</a> · <a href="http://www.news.cn/tech/20260213/269a5565afda44a48c527c05f9868cfb/c.html">新华网 2026-02</a> · <a href="https://news.hangzhou.com.cn/zjnews/content/2025-05/15/content_8995480.htm">杭州网 2025-05</a> · <a href="http://www.zj.xinhuanet.com/20260924/40b189887a614df3b70ae27819defea2/c.html">新华网 2026-09</a> · <a href="https://www.spacechina.com/n25/n2014789/n2014804/c4702521/content.html">航天科技集团 2026-09</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">先看云，再决定拍哪里<small>Dynamic Targeting</small></span><span class="gist">卫星先"抬头"看前方约 500 公里的云，几秒内算出哪里晴朗，再低头只拍没被云挡住的那一条。</span><span class="on-case">案例 · NASA JPL CogniSAT-6</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>卫星前倾 40–50°，用唯一的相机拍前方图像。</li>
+            <li>星上低功耗 AI 芯片（Intel Myriad X）运行卷积神经网络，逐像素判断是不是云。</li>
+            <li>6 秒内选出云最少的条带；地面事先已算好每个条带对应的侧摆角度。</li>
+            <li>卫星回转，按选中的角度拍摄。决策过程中没有人参与。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>最多 2/3</b>光学卫星被云挡住的时间</li>
+            <li><b>6 秒</b>算法必须完成的时限</li>
+            <li><b>60–90 秒</b>从看到拍的全过程</li>
+            <li><b>8 次</b>2025 年的飞行试验</li>
+          </ul>
+          <p class="limit">斜着看的角度太大，各波段图像对不齐，只能用灰度图判断；追踪风暴、发现火点等功能还没有在轨结果。</p>
+          <p class="more-src">来源：<a href="https://www.jpl.nasa.gov/news/how-nasa-is-testing-ai-to-make-earth-observing-satellites-smarter/">NASA JPL 2025-07</a> · <a href="https://superintelligence.jpl.nasa.gov/public/documents/papers/DT-Astra-2025-Extended-Abstract.pdf">JPL 论文 2025</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">星上丢掉废片<small>On-board Inference · 商用芯片</small></span><span class="gist">卫星在天上判断"这张图是不是被云挡了"，挡了就不传，把宝贵的下行带宽留给有用的图。</span><span class="on-case">案例 · 欧空局 Φsat-1、Φsat-2</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>相机是新的，没有现成数据，就用其他卫星的数据合成训练集。</li>
+            <li>用一块商用视觉芯片（Myriad 2）跑神经网络，上天前在欧洲核子研究中心连续辐照 36 小时，未经改动就通过了。</li>
+            <li>逐像素判断有云无云，只下传可用的数据。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>2020</b>首次在轨用 AI 芯片处理对地观测图像</li>
+            <li><b>36 小时</b>上天前的辐照试验</li>
+            <li><b>6 个</b>Φsat-2 的星上应用：云、街道、船只、山火等</li>
+          </ul>
+          <p class="limit">常见的"省 30% 带宽"出自芯片厂商的设计思路，不是欧空局公布的在轨实测值；在轨判断的准确率没有公开。</p>
+          <p class="more-src">来源：<a href="https://www.esa.int/articles/facts-and-figures-6">欧空局 Φsat-2</a> · <a href="https://download.intel.com/newsroom/archive/2025/en-us-2020-10-20-intel-powers-first-satellite-with-ai-on-board.pdf">Intel 2020-10</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">遥测异常检测<small>LSTM · Anomaly Detection</small></span><span class="gist">记住卫星正常时成千上万个参数"该长什么样"，实际值一偏离规律就预警，哪怕还没越过报警红线。</span><span class="on-case">案例 · 西安寰宇卫星测控；同类方法 NASA JPL</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <p>寰宇公司公开的内容是：用深度学习分析轨道、姿态、电源、热控等数千项参数，识别异常趋势，例如电源电压长期缓慢下降时提前预判电池故障。具体算法没有公开。</p>
+          <p>NASA JPL 公开了同类方法：每个遥测通道训练一个"会记时间规律"的神经网络（LSTM），预测下一刻的值；实际值和预测值差得多了就报警，门槛根据近期误差自动调整；运控工程师复核告警。</p>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>200 余次</b>寰宇 2024 年有效预警（企业数据）</li>
+            <li><b>98%</b>寰宇称的预警准确度</li>
+            <li><b>87.5% / 80%</b>JPL 方法的精确率 / 召回率</li>
+            <li><b>700+</b>JPL 试点实时监测的通道数</li>
+          </ul>
+          <p class="limit">JPL 团队指出，误报太多是这类方法进入业务运行的最大障碍；寰宇的"准确度"统计口径没有说明。</p>
+          <p class="more-src">来源：<a href="https://www.sxdaily.com.cn/2025-03/21/content_11107437.html">陕西日报 2025-03</a> · <a href="https://arxiv.org/pdf/1802.04431">Hundman 等，KDD 2018</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">太空芯片的取舍<small>Radiation-hardened vs COTS</small></span><span class="gist">太空里的高能粒子会让芯片"记错数"甚至烧坏。传统航天芯片用大量性能换可靠，现在开始把商用 AI 芯片拿去打粒子束，看它扛不扛得住。</span><span class="on-case">背景 · 所有星上 AI 的硬约束</span></summary>
+        <div class="more-body">
+          <h4>现状</h4>
+          <ol>
+            <li>毅力号火星车的主处理器 RAD750 最高只有 200 MHz，NASA 称现役航天计算机是"近 30 年前开发的"。</li>
+            <li>NASA 新一代抗辐射处理器 HPSC 设计指标是 100 倍以上，2026 年 5 月初步测试约为现役芯片的 500 倍。</li>
+            <li>Google 用质子束测试自家 AI 芯片：内存在约 3 倍于 5 年任务剂量时才开始异常，主要风险是"算错了却不报错"。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>200 MHz</b>毅力号主处理器</li>
+            <li><b>约 500 倍</b>NASA 新芯片初测</li>
+            <li><b>2 TOPS</b>新芯片的 AI 算力（对比三体单星 744）</li>
+            <li><b>1/300 万</b>Google 芯片每次推理出静默错误的概率</li>
+          </ul>
+          <p class="limit">抗辐射芯片可靠但慢，商用芯片快但需要靠冗余、纠错和屏蔽兜底。Google 的结果是厂商自己的地面测试，商用 GPU 上天的辐照数据大多没有公开。</p>
+          <p class="more-src">来源：<a href="https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/">NASA 毅力号部件</a> · <a href="https://www.nasa.gov/news-release/nasa-awards-next-generation-spaceflight-computing-processor-contract/">NASA 2022-08</a> · <a href="https://www.nasa.gov/technology/hello-universe-nasas-next-gen-space-processor-undergoes-testing/">NASA 2026-05</a> · <a href="https://ww1.microchip.com/downloads/aemDocuments/documents/MPU64/ProductDocuments/Brochures/PIC64-HPSC-Series-00005391.pdf">Microchip</a> · <a href="https://arxiv.org/pdf/2511.19468">Google Suncatcher 论文</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>"自主"不等于"AI"。Starlink 每天上千次避碰靠的是精确计算和明确规则，它可预测、可审查。真正的星上 AI 目前主要做"筛数据"，例如判云、判伽马暴，出错的代价是少传或多传一张图，而不是撞星。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-eo" data-phase="在轨应用" data-kind="案例" data-chapter="遥感" data-title="AI 先过一遍">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 遥感</div>
+      <h2 class="reveal d1">看地球：卫星图从"专家逐张判读"到<em class="hl">"AI 先过一遍"</em></h2>
+      <p class="lede reveal d2">卫星每天拍回的图像，人工根本看不完。遥感大模型先把大范围影像过一遍，认出农田、建筑、水体和变化，专家只复核可疑的地方。</p>
+    </header>
+    <div class="grid g-wide-right">
+      <figure class="photo h-full reveal d2"><img src="img/landsat-himalaya.jpg" alt="Landsat 9 拍摄的喜马拉雅山区" loading="lazy"><figcaption>Landsat 9 拍摄的喜马拉雅山区 · NASA，公有领域</figcaption></figure>
+      <div class="card reveal d3">
+        <div class="who-line"><i class="tag t-try">试用</i>自然资源部信息中心 × 阿里云"后土"</div>
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"从卫星图自动识别国土地类的准确率","max":100,"usable":72,"items":[{"label":"以前的方法","value":70,"display":"约 70%"},{"label":"大模型 · 一级地类","sub":"如耕地、林地","value":90,"display":"90%","hi":true},{"label":"大模型 · 二级地类","sub":"如水田、旱地","value":85,"display":"85% 以上","hi":true}]}</script></div>
+        <p style="margin-top:10px">数字来自发布方。识别率从七成升到九成，意味着人工复核量大幅减少，但仍需要人工确认。</p>
+      </div>
+    </div>
+    <div class="grid g-4 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">已开放</i>Google DeepMind</div><div class="what">AlphaEarth：全球 10 米网格的"地球档案"</div><div class="fig">−24%<small>制图误差</small></div><p>存储空间只要原来的 1/16，已有 50 多家机构使用。</p></div>
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">开源</i>NASA × IBM</div><div class="what">Prithvi 地理空间模型</div><div class="fig">1/2<small>所需人工标注</small></div><p>用于洪水、火烧迹地、作物制图，任何人都能下载使用（IBM 估计）。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-try">试运行</i>中科院空天院</div><div class="what">"空天·灵眸"3.0 遥感大模型</div><div class="fig">1/3<small>训练所需显卡</small></div><p>百亿参数，精度平均提升 4%–10%，在应急、国土、海洋、住建部门部署试运行。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-use">在用</i>航天宏图"女娲星座"</div><div class="what">12 颗雷达卫星服务救灾</div><div class="fig">&lt;1<small>小时拿到数据</small></div><p>雷达能穿云透雾，AI 用于加快影像解析。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>AI 像一个不睡觉的初审员：先把全国的卫星图过一遍，圈出哪里变了；最终认定由专家来做。</p>
+    <div class="src reveal d5">来源：<a href="https://www.163.com/dy/article/JRLVLL5T05118O92.html">阿里云 2025</a> · <a href="https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/">DeepMind 2025-07</a> · <a href="https://research.ibm.com/blog/nasa-hugging-face-ibm">IBM 2023</a> · <a href="https://science.nasa.gov/science-research/ai-geospatial-model-earth/">NASA 2024-12</a> · <a href="https://news.sciencenet.cn/htmlnews/2024/10/531092.shtm">科学网 2024-10</a> · <a href="https://www.news.cn/20241223/da894e9d767f43e2bc9e944973172e1d/c.html">新华社 2024-12</a> · 照片：NASA</div>
+  </div>
+</section>
+
+<section class="slide" id="space-eo-how" data-phase="在轨应用" data-kind="原理" data-chapter="遥感" data-title="先自学看图，再教具体任务">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 遥感 · 怎么做到的</div>
+      <h2 class="reveal d1">遥感大模型：先用海量图<em class="hl">自学看图</em>，再用少量标注<em class="hl">教具体任务</em></h2>
+      <p class="lede reveal d2">过去每做一种专题图，比如水体、耕地、火烧迹地，都要标几万个样本、从头训练一个专用模型。基础模型先在海量没标注的卫星图上练出通用的"看图能力"，之后每个新任务只需要几十到几百个标注样本。</p>
+    </header>
+    <div class="section-label reveal d2"><span>一般流程</span></div>
+    <ol class="pipeline reveal d2">
+      <li><b>收集海量影像</b><span>光学、雷达、多年时序，不需要人工标注</span></li>
+      <li><b>自学看图</b><span>遮住大部分图块让模型猜，练出通用本领</span></li>
+      <li class="human"><b>少量标注</b><span>专家为具体任务标几十到几百个样本</span></li>
+      <li><b>微调</b><span>教会它认洪水、作物、地类</span></li>
+      <li class="human"><b>出图复核</b><span>结果供参考，认定由专家做</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>五种做法 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid g-3 reveal d3">
+      <details class="more">
+        <summary><span class="term">做"填空题"自学<small>Masked Autoencoder · 自监督</small></span><span class="gist">把卫星图切成小块，遮住大部分让模型猜回来。猜多了，它就学会了地表长什么样。</span><span class="on-case">案例 · NASA × IBM Prithvi</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>从 NASA 统一处理过的 Landsat、哨兵二号数据里取样，避开云，按气候区均衡抽样。</li>
+            <li>用"遮住再还原"的方式预训练，不需要任何人工标注。</li>
+            <li>模型权重免费开源，任何人都能下载。</li>
+            <li>用少量标注微调到洪水、火烧迹地、作物分类等任务。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>1 TB+</b>1.0 版的预训练数据</li>
+            <li><b>540 → 135 张</b>火烧迹地任务的标注量，效果相当</li>
+            <li><b>420 万</b>2.0 版的全球时序样本</li>
+            <li><b>3 亿 / 6 亿</b>2.0 版两个规模的参数量</li>
+          </ul>
+          <p class="limit">1.0 版只用了美国本土的数据；分辨率 30 米，看不清单栋建筑。</p>
+          <p class="more-src">来源：<a href="https://arxiv.org/abs/2310.18660">Prithvi 论文</a> · <a href="https://arxiv.org/abs/2412.02732">Prithvi-EO-2.0 论文</a> · <a href="https://science.nasa.gov/science-research/ai-geospatial-model-earth/">NASA 2024-12</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">给每块地一张"数字身份证"<small>Embedding · 嵌入</small></span><span class="gist">把同一块 10 米见方的土地一年里所有的光学、雷达、激光、气候观测，压缩成 64 个数字。以后要做任何地图，只需在这串数字上训练一个简单的分类器。</span><span class="on-case">案例 · Google DeepMind AlphaEarth</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>汇集 10 种数据：哨兵一号和二号、Landsat、日本 PALSAR-2 雷达、GEDI 激光、地形、气候、重力，加上维基百科文本和物种记录。</li>
+            <li>用一个"看视频"式的时空模型学习这些数据之间的关系。</li>
+            <li>每年生成一版覆盖全球陆地的嵌入图层，放在 Google Earth Engine 上。</li>
+            <li>用户提供少量标注，训练自己的分类器。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>64 字节</b>每个 10 米像元的存储量</li>
+            <li><b>30 亿+</b>训练用的观测</li>
+            <li><b>−23.9%</b>15 项评测中误差比次优方法平均低</li>
+            <li><b>16 倍</b>存储比同类 AI 系统少</li>
+          </ul>
+          <p class="limit">这 64 个数字人看不懂，要靠下游分类器解读；数据按年发布，看不出一年之内的变化。</p>
+          <p class="more-src">来源：<a href="https://arxiv.org/abs/2507.22291">AlphaEarth 论文</a> · <a href="https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/">DeepMind 2025-07</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">换一种省算力的结构<small>RS-vHeat · 热传导算子</small></span><span class="gist">把图中信息的传播当成热量在材料里扩散来计算，比主流的"注意力"结构省算力，训练所需的显卡更少。</span><span class="on-case">案例 · 中科院空天院"空天·灵眸"3.0</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>与鹏城实验室合作，以"热传导"结构作为模型的核心。</li>
+            <li>把光学和雷达图像映射到同一个空间，让同一地点的两种图像在模型里"对得上"。</li>
+            <li>用 4 亿张多模态样本，在 512 张国产昇腾显卡上训练。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>百亿</b>参数，首次超过百亿</li>
+            <li><b>2.4 倍+</b>计算吞吐量，比经典结构</li>
+            <li><b>4%–10%</b>23 个评测上的平均精度提升</li>
+            <li><b>300+ → 1/3</b>训练 1,000 万张样本所需显卡（受访者举例）</li>
+          </ul>
+          <p class="limit">公开论文里的模型规模比产品小得多；红外、高光谱等数据怎么融合没有公开。</p>
+          <p class="more-src">来源：<a href="https://news.sciencenet.cn/htmlnews/2024/10/531092.shtm">光明日报 2024-10</a> · <a href="https://www.pcl.ac.cn/html/1036/2024-09-26/content-4500.html">鹏城实验室 2024-09</a> · <a href="https://arxiv.org/abs/2411.17984">RS-vHeat 论文</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">通用大模型 + 行业知识<small>Qwen · LoRA · 知识库</small></span><span class="gist">在通义千问的底座上，灌入自然资源行业的文件、术语和专家经验，既能回答政策问题，也能辅助识别卫星图里的地类。</span><span class="on-case">案例 · 自然资源部信息中心 × 阿里云"后土"</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>70 多万份政策和基础知识文档转成可检索的知识库。</li>
+            <li>加上知识图谱、术语定义、专家问答对。</li>
+            <li>只训练模型的一小部分参数（LoRA 微调），让它学会行业说法。</li>
+            <li>先用公开数据跑通，再部署到内网，因为数据涉密。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>960 万平方公里</b>每年两次 1:5000 国土调查</li>
+            <li><b>70 万份+</b>入库的文档</li>
+            <li><b>70% → 90%</b>一级地类识别率</li>
+          </ul>
+          <p class="limit">遥感识别部分的模型结构和训练样本没有公开；数字来自阿里云参与策划的刊物。模型给出的评估只作参考，执法认定仍由人负责。</p>
+          <p class="more-src">来源：<a href="https://www.163.com/dy/article/JRLVLL5T05118O92.html">阿里云 × 钛媒体 2025-03</a> · <a href="https://ue.aliyun.com/news/20231110">阿里云 2023-11</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">雷达卫星：穿云透雾<small>SAR · 合成孔径雷达</small></span><span class="gist">雷达自己发射微波、接收回波，不靠阳光、能穿透云。卫星边飞边收，把一路的回波合成，等效成几公里长的大天线。</span><span class="on-case">案例 · 航天宏图"女娲星座"</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>发射微波脉冲，接收地面回波。</li>
+            <li>把飞行途中的回波合成为高分辨率图像。</li>
+            <li>去除颗粒状的"斑点噪声"，校正山区的几何变形。</li>
+            <li>AI 做目标检测、变化检测，人工判读核验。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 4,250 米</b>C 波段要达到 10 米分辨率所需的等效天线长度</li>
+            <li><b>1 米</b>女娲星座分辨率</li>
+            <li><b>&lt;1 小时</b>从下指令到拿到数据</li>
+          </ul>
+          <p class="limit">雷达图和照片很不一样：有斑点噪声，山体会"倒向"卫星；AI 研究大多集中在光学图像上，雷达缺少高质量的公开训练数据。女娲星座具体怎么用 AI 没有公开。</p>
+          <p class="more-src">来源：<a href="https://www.earthdata.nasa.gov/learn/earth-observation-data-basics/sar">NASA Earthdata</a> · <a href="https://arxiv.org/abs/2006.10027">SAR 深度学习综述</a> · <a href="https://www.news.cn/20241223/da894e9d767f43e2bc9e944973172e1d/c.html">新华社 2024-12</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>遥感 AI 的进步，主要是从"每个任务从头标几万张"变成了"一个底座、少量标注"。它出的是"初稿图"，进入执法、统计的数字仍要人工核实。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-deep" data-phase="深空与科学" data-kind="案例" data-chapter="深空探测" data-title="越远越要自己拿主意">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 深空探测</div>
+      <h2 class="reveal d1">深空：离地球越远，<em class="hl">越要自己拿主意</em></h2>
+      <p class="lede reveal d2">火星的信号单程最长约 20 分钟，遥控来不及。着陆、行驶、挑目标，深空探测器早就靠自主系统工作，AI 让这种"自主"越来越强。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card reveal d2">
+        <div class="who-line"><i class="tag t-use">在用</i>NASA 火星车</div>
+        <div class="chart" data-chart="bars"><script type="application/json">{"title":"火星车行驶里程中，自己看路、自己选路的比例","max":100,"usable":70,"items":[{"label":"机遇号","sub":"2004 年着陆","value":5,"display":"约 5%"},{"label":"毅力号","sub":"2021 年着陆","value":90,"display":"90% 以上","hi":true}]}</script></div>
+        <p style="margin-top:10px">毅力号每看一次路要处理 60 万个测量点，第一辆火星车索杰纳只有 20 个。2026 年 10 月累计行驶 45 公里，创地外行驶纪录。</p>
+      </div>
+      <div class="card case reveal d3">
+        <div class="thumb route"><img src="img/mars-route.jpg" alt="AI 规划路线（品红）与毅力号实际路线（橙）对比" loading="lazy"></div>
+        <div class="who"><i class="tag t-try">试验</i>NASA 喷气推进实验室 × Anthropic</div>
+        <div class="what">2025 年 12 月：AI 规划路线，火星车照着开</div>
+        <p>两次分别行驶 210 米和 246 米。图中品红线是 AI 规划的路线，橙线是实际路线。指令发出前，先在"数字孪生"里核验了 50 多万个遥测变量。</p>
+      </div>
+    </div>
+    <div class="grid g-3 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">在用</i>天问一号 · 嫦娥六号</div><div class="what">着陆的最后几分钟，全靠自己</div><div class="fig">9<small>分钟</small></div><p>天问一号自主完成进入、下降、着陆，距地面 100 米悬停，自己找平地、避开石块；嫦娥六号同样如此。官方称为"自主控制"。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-use">在用</i>NASA DART 任务</div><div class="what">自己瞄准、撞击小行星</div><div class="fig">4<small>小时全自主</small></div><p>2022 年撞击后，小行星绕转周期缩短 32 分钟，首次证明人类能改变小天体轨道。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-use">在用</i>NASA 毅力号</div><div class="what">着陆时边拍边比对地图</div><div class="fig">10<small>秒内定位</small></div><p>下降时拍地面和星上地图比对，定位误差从 3.2 公里缩小到 40 米以内，再避开预先标出的危险区，安全着陆概率从 80%–85% 提高到 99%。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>就像派一位司机去一个电话要几十分钟才接通的地方：路只能他自己看、自己开，地面只定目的地和规矩。</p>
+    <div class="src reveal d5">来源：<a href="https://science.nasa.gov/blogs/perseverance-mars-rover/2026/10/12/nasas-perseverance-sets-off-world-record-for-total-distance-driven/">NASA 2026-10</a> · <a href="https://www.nasa.gov/missions/mars-2020-perseverance/perseverance-rover/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/">NASA 2026-01</a> · <a href="https://www.chinanews.com/gn/2021/05-16/9478285.shtml">中新网 2021-05</a> · <a href="http://www.news.cn/science/20240603/eba53532c363408aa31f68d9acec4fb9/c.html">新华社 2024-06</a> · <a href="https://www.nasa.gov/news-release/nasa-confirms-dart-mission-impact-changed-asteroids-motion-in-space/">NASA DART</a> · <a href="https://www-robotics.jpl.nasa.gov/what-we-do/flight-projects/mars-2020-rover/terrain-relative-navigation/">JPL TRN</a> · 图片：NASA/JPL-Caltech/UofA</div>
+  </div>
+</section>
+
+<section class="slide" id="space-deep-how" data-phase="深空与科学" data-kind="原理" data-chapter="深空探测" data-title="看路、认地、挑石头、自己瞄准">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 深空探测 · 怎么做到的</div>
+      <h2 class="reveal d1">深空自主靠的是：<em class="hl">看路、认地、挑石头、自己瞄准</em></h2>
+      <p class="lede reveal d2">深空自主由来已久：1999 年，"深空一号"上的软件就独立指挥了飞船 3 天。这些年的进步主要在"眼睛"和"算力"上，相机看得更细、算得更快；AI 也开始在地面帮人做规划。下面以火星车的一天为例。</p>
+    </header>
+    <div class="section-label reveal d2"><span>火星车的一天</span></div>
+    <ol class="pipeline reveal d2">
+      <li class="human"><b>地面定目标</b><span>科学家选目的地，规划员在地图上标出沙地等禁行区</span></li>
+      <li><b>拍立体照片</b><span>两台导航相机同时拍，算出前方地面高低</span></li>
+      <li><b>选路</b><span>从一批候选路线里挑最快、车身又不磕碰的</span></li>
+      <li><b>边走边想</b><span>车轮在转，下一段路已经在规划</span></li>
+      <li><b>到点自己挑石头</b><span>不等地面指令，挑出最值得测的石头，用激光测成分</span></li>
+      <li class="human"><b>回传复盘</b><span>第二天地面看结果，再定下一步</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>六项技术 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid reveal d3">
+      <details class="more">
+        <summary><span class="term">自主导航：自己看路、选路<small>AutoNav · Stereo Vision</small></span><span class="gist">一对相机算出前方地面的高低起伏，从候选路线里挑最快、又不会让车底磕碰的一条，而且边开边算。</span><span class="on-case">案例 · 毅力号</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>左右两台导航相机同时拍照，用两张照片的视差算出距离，生成地面高度图。</li>
+            <li>按"到目标要多久 + 地面多崎岖"给所有候选路线排序。</li>
+            <li>从排第一的开始逐条做安全检查：按最坏情况估算每个车轮的高低，看车底会不会刮、车身会不会倾斜太大（近似间隙评估 ACE）。</li>
+            <li>车上有一台专门做视觉计算的计算机（含 FPGA 芯片），着陆时用于比对地图，落地后专职导航，所以能"边走边想"。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>120 米/小时</b>最高速度，好奇号约 20 米</li>
+            <li><b>412 米</b>单日最远</li>
+            <li><b>60 万个</b>每看一次的测量点，第一辆火星车只有 20 个</li>
+            <li><b>0.5 米</b>勇气号、机遇号每走这么远就要停下来想</li>
+          </ul>
+          <p class="limit">只看得出地面的形状，看不出是不是软沙，沙地要靠人提前标出。走得越远位置误差越大，禁行区会被"放大"堵住通道，曾经只走 14 米就停车。逆光时相机会眩光，下午过半就得停。</p>
+          <p class="more-src">来源：<a href="https://science.nasa.gov/blogs/perseverance-mars-rover/2026/10/12/nasas-perseverance-sets-off-world-record-for-total-distance-driven/">NASA 2026-10</a> · <a href="https://www.nasa.gov/solar-system/nasas-self-driving-perseverance-mars-rover-takes-the-wheel/">NASA 2021-07</a> · <a href="https://spectrum.ieee.org/mars-rover-distance-record">IEEE Spectrum 2026-10</a> · <a href="https://www.jpl.nasa.gov/news/autonomous-systems-help-nasas-perseverance-do-more-science-on-mars/">NASA JPL</a> · <a href="https://arxiv.org/abs/1808.00031">ACE 论文</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">大模型在地面规划路线<small>Vision-Language Model</small></span><span class="gist">过去由驾驶员在卫星图上一个个点航点；这次交给 Claude 看图、标地形、写指令，人审核后再发上火星。</span><span class="on-case">案例 · NASA JPL × Anthropic</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>工程师把多年的驾驶经验和数据整理好，交给 Claude。</li>
+            <li>Claude 看轨道相机拍的高清照片和坡度图，认出基岩、沙纹、乱石区。</li>
+            <li>约 10 米一段拼出路线，自己检查、修改，用火星车的指令语言写出航点。</li>
+            <li>指令在地面的"数字孪生"火星车上预演，核验 50 万个以上遥测变量。</li>
+            <li>驾驶员审阅后只做了小改，把一处两侧有沙纹的窄通道分得更细，因为 Claude 没看到车上拍的照片。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>210 + 246 米</b>2025 年 12 月的两次行驶</li>
+            <li><b>50 万+</b>预演时核验的遥测变量</li>
+            <li><b>≤100 米</b>人工规划时航点的一般间隔</li>
+          </ul>
+          <p class="limit">只是两次演示，AI 在地面运行，不在车上。车上照常由自主导航实时避障。网上流传的"规划时间减半"是工程师的估计，不是实测。</p>
+          <p class="more-src">来源：<a href="https://www.nasa.gov/missions/mars-2020-perseverance/perseverance-rover/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/">NASA 2026-01</a> · <a href="https://www.anthropic.com/features/claude-on-mars">Anthropic</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">地形相对导航：着陆时"看地图认路"<small>Terrain Relative Navigation</small></span><span class="gist">下降时拍地面，和预先存在飞船里的地图做拼图比对，10 秒内算出自己在哪，再偏转飞向安全点。</span><span class="on-case">案例 · 毅力号着陆</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>地面用轨道器约 30 厘米分辨率的照片做成两级地图，预先标出危险区。</li>
+            <li>约 4.2 公里高度开始拍照。先粗匹配：在 3 张照片里认出 15 个地标。</li>
+            <li>再精匹配：每张照片最多认 150 个地标，与惯性测量数据融合，得到位置和速度。</li>
+            <li>从预先标好的安全点里，选一个燃料够得着的，偏转飞过去。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>3.2 公里 → 40 米</b>定位误差</li>
+            <li><b>10 秒</b>完成一次定位</li>
+            <li><b>80%–85% → 99%</b>安全着陆概率</li>
+            <li><b>5 米</b>落点距它自己选定的点</li>
+          </ul>
+          <p class="limit">只能避开地图上预先标出的危险，不是现场识别每块石头；依赖高质量的先验地图，到了没有高清地图的天体（如木卫二）就不够用。</p>
+          <p class="more-src">来源：<a href="https://www.nasa.gov/directorates/stmd/impact-story-terrain-relative-navigation/">NASA 2022-09</a> · <a href="https://www-robotics.jpl.nasa.gov/what-we-do/flight-projects/mars-2020-rover/terrain-relative-navigation/">JPL 机器人组</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">自主选靶：自己挑石头<small>AEGIS</small></span><span class="gist">车到新地点后不等地面，在照片里圈出石头，按科学家给的"偏好表"排名，挑第一名用激光测成分。</span><span class="on-case">案例 · 机遇号 → 好奇号 → 毅力号</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>科学家事先设定"目标画像"，例如偏好浅色基岩。</li>
+            <li>行驶后拍照，自动识别候选石头，剔除太远、太靠近车体或太阳方向的。</li>
+            <li>排名，选前一两个（毅力号升级后一次最多 5 个）。</li>
+            <li>立刻用激光打点分析，数据传回后由科学家判读。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>93%+</b>选中科学家想要的石头类型，盲打约 24%</li>
+            <li><b>2010</b>机遇号首次使用（当时只用来选拍照目标）</li>
+            <li><b>150–450 秒</b>每次运行用时</li>
+          </ul>
+          <p class="limit">好处是把"等地面回话"的空档用起来：午后到达新地点，照片还没传回地球，第二天车又要开走。局限是车上算力很小，"偏好表"要根据火星上的实际情况不断调整。</p>
+          <p class="more-src">来源：<a href="https://laro.lanl.gov/view/pdfCoverPage?instCode=01LANL_INST&amp;filePid=13158286550003761&amp;download=true">Francis 等，Science Robotics 2017</a> · <a href="https://science.nasa.gov/blog/supercam-gains-new-artificial-intelligence-capabilities-with-aegis-upgrade/">NASA 2023-02</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">粗精接力避障<small>GNC · 官方称"自主"</small></span><span class="gist">先用光学相机"远看"选一片大致平坦的区域，再在 100 米高处悬停，用激光"近看"扫出三维地形，选定最终落点。</span><span class="on-case">案例 · 天问一号、嫦娥六号</span></summary>
+        <div class="more-body">
+          <h4>怎么做（嫦娥六号）</h4>
+          <ol>
+            <li>地面用嫦娥二号 7 米分辨率影像和地形数据，预选坡度小的区域。</li>
+            <li>约 15 公里高度开始动力下降，相对速度从约每秒 1.6 公里降到零。</li>
+            <li>1.5 公里高度，光学成像敏感器粗避障，剔除大障碍。</li>
+            <li>100 米高度悬停，激光三维成像敏感器扫描地形，精避障选定落点。</li>
+            <li>缓速垂直下降，接近月面时关机，靠着陆腿缓冲。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 20 分钟</b>天问一号着陆时地火单程通信时延</li>
+            <li><b>9 分钟</b>天问一号从约 2 万公里时速减到零</li>
+            <li><b>&lt;20 厘米</b>天问一号悬停时要避开的石块和坑</li>
+            <li><b>上千次</b>地面试验（河北怀来、敦煌等地）</li>
+          </ul>
+          <p class="limit">官方称"自主控制"，没有称之为 AI，避障识别用的具体算法未公开。月球背面地形更崎岖，光照和测控更容易被遮挡。</p>
+          <p class="more-src">来源：<a href="https://www.chinanews.com/gn/2021/05-16/9478285.shtml">中新网 2021-05</a> · <a href="https://lw.news.cn/2023-01/16/c_1310691036.htm">瞭望 2023-01</a> · <a href="https://www.spacechina.com/n25/n2014789/n2414549/c4136423/content.html">航天科技集团 2024-06</a> · <a href="http://www.news.cn/science/20240603/eba53532c363408aa31f68d9acec4fb9/c.html">新华社 2024-06</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">光学自主制导：自己瞄准撞击<small>SMART Nav</small></span><span class="gist">最后 4 小时，飞船在照片里找亮点、算中心，认出两颗小行星里较小的那颗，每秒算一次"往哪推一下"，一路撞上去。</span><span class="on-case">案例 · NASA DART</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>地面先把飞船送进目标通道，最后 4 小时交给星上算法。</li>
+            <li>在相机照片里找成团的亮点，算出每个亮点的中心。</li>
+            <li>两个亮点里较小的就是目标 Dimorphos，它直径约 160 米，撞击前约 1 小时才看得见。</li>
+            <li>预测目标位置，决定何时点火、推多少，约每秒一次；最后约 2.5 分钟停止调整，保证拍照清晰。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 6 公里/秒</b>撞击速度</li>
+            <li><b>1.5 分钟</b>地面一来一回的通信时延，来不及遥控</li>
+            <li><b>1–2 万次</b>上天前做的末段仿真</li>
+            <li><b>25 倍</b>实际效果超过最低成功标准</li>
+          </ul>
+          <p class="limit">星上处理器的算力只相当于第一代 PlayStation 游戏机。早期仿真经常脱靶：小行星的阴影可能让一个目标看起来像两个亮点。推进器点火时传感器的反应，只有上天才能验证。</p>
+          <p class="more-src">来源：<a href="https://www.jhuapl.edu/interactive/navigating-double-asteroid-redirection-test-on-its-own">约翰斯·霍普金斯大学应用物理实验室</a> · <a href="https://www.nasa.gov/news-release/nasa-confirms-dart-mission-impact-changed-asteroids-motion-in-space/">NASA 2022-10</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>深空里用得最多的是经过几十年验证的"规则加规划"式自主，它们按事先写好的步骤算，行为可以预测。靠"学习"的大模型目前只在地面帮人做规划，还没有上到探测器去做决定。</p>
+    <div class="src reveal d5">背景：<a href="https://www.jpl.nasa.gov/news/futuristic-software-demonstrated-on-deep-space-1-wins-nasa-award/">深空一号 Remote Agent，1999</a> · <a href="https://ai.jpl.nasa.gov/public/projects/ase/">EO-1 卫星自主科学实验，2003–2017</a></div>
+  </div>
+</section>
+
+<section class="slide" id="space-science" data-phase="深空与科学" data-kind="案例" data-chapter="空间科学" data-title="从海量数据里淘金">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 空间科学</div>
+      <h2 class="reveal d1">空间科学：AI 帮科学家<em class="hl">从海量数据里淘金</em></h2>
+      <p class="lede reveal d2">望远镜和探测器产生的数据，早已超出人工能处理的量。AI 负责初筛，科学家负责确认，有些发现因此提速了几十倍。</p>
+    </header>
+    <div class="grid g-2">
+      <div class="card case reveal d2"><div class="who"><i class="tag t-res">研究</i>吉林大学 × 国家天文台 · 《自然-通讯》</div><div class="what">用 AI 在嫦娥一号、二号数据里数月球撞击坑</div><div class="fig"><span class="count" data-to="109956">109,956</span><small>个</small></div><p>是此前同一纬度范围内识别数量的几十倍，还估算了约 1.9 万个撞击坑的年龄，帮助推算月球的演化历史。</p></div>
+      <div class="card case reveal d3"><div class="who"><i class="tag t-res">研究</i>NASA 艾姆斯研究中心</div><div class="what">ExoMiner 从开普勒望远镜数据中确认系外行星</div><div class="fig"><span class="count" data-to="370">370</span><small>颗</small></div><p>NASA 2026 年公布的数字（2021 年论文为 301 颗）。升级版又从新数据里标出约 7,000 个候选，等待确认。</p></div>
+    </div>
+    <div class="grid g-3 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">在用</i>国家天文台 × 腾讯优图</div><div class="what">AI 处理"中国天眼"FAST 数据</div><div class="fig">51<small>颗新脉冲星</small></div><p>3 年里找到 51 颗脉冲星和 3 例快速射电暴（企业发布）。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-use">在用</i>鲁宾天文台（智利）</div><div class="what">每晚的天体变化告警，由机器学习分拣</div><div class="fig">700<small>万条/晚</small></div><p>满负荷时的数量，拍摄后 2 分钟内把告警推送给全球科学家。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-res">研究</i>NASA × IBM</div><div class="what">Surya 太阳基础模型</div><div class="fig">9<small>年观测数据训练</small></div><p>能推演未来约 2 小时的太阳图像，并预报 24 小时内会不会出现强耀斑，评分高于对比模型。已开源。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>过去天文学家像在沙滩上一粒一粒找金子，现在 AI 先筛出一小撮，科学家再逐个确认。</p>
+    <div class="src reveal d5">来源：<a href="https://www.chinanews.com/gn/2020/12-23/9369384.shtml">中新网 2020-12</a> · <a href="https://science.nasa.gov/open-science/deep-learning-exoplanets-tess/">NASA 2026-01</a> · <a href="https://arxiv.org/abs/2111.10009">ExoMiner 论文</a> · <a href="https://finance.sina.com.cn/jjxw/2024-11-27/doc-incxphxe6612936.shtml">新浪财经 2024-11</a> · <a href="https://rubinobservatory.org/news/first-alerts">鲁宾天文台 2026-02</a> · <a href="https://science.nasa.gov/science-research/artificial-intelligence-model-heliophysics/">NASA 2025-08</a></div>
+  </div>
+</section>
+
+<section class="slide" id="space-science-how" data-phase="深空与科学" data-kind="原理" data-chapter="空间科学" data-title="机器初筛，人来确认">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天 · 空间科学 · 怎么做到的</div>
+      <h2 class="reveal d1">共同的套路：<em class="hl">把信号变成图，机器初筛，人来确认</em></h2>
+      <p class="lede reveal d2">天文数据量大，真正有价值的信号又极少，最难的是已知样本太少，没多少现成的"答案"可以教 AI。各团队的办法各不相同：借用别处学到的本事、让 AI 自己出题自己练、只挑最值得人看的样本给人标。</p>
+    </header>
+    <div class="section-label reveal d2"><span>一般流程</span></div>
+    <ol class="pipeline reveal d2">
+      <li><b>原始数据</b><span>光变曲线、射电信号、太阳图像，每天以 TB 计</span></li>
+      <li><b>预处理成"图"</b><span>折叠、去噪、相减，把信号变成 AI 能看的图</span></li>
+      <li><b>AI 打分</b><span>给每个候选算"是真信号"的概率</span></li>
+      <li><b>只留极少数</b><span>千万张图里筛出几百个候选</span></li>
+      <li class="human"><b>科学家确认</b><span>人工复核，或用别的望远镜再观测</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>五个案例的做法 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid reveal d3">
+      <details class="more">
+        <summary><span class="term">模仿专家的"复核员"<small>Multi-branch CNN · 可解释</small></span><span class="gist">不是去发现新行星，而是复核望远镜已经抓到的疑似信号。每一项检查交给网络的一个分支，就像专家逐项看诊断报告。</span><span class="on-case">案例 · NASA ExoMiner</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>输入：行星挡住恒星时亮度下降的曲线（凌星），加上一份诊断报告。</li>
+            <li>每类诊断走一个网络分支：两次凌星深度是否一致、有没有次食、亮度中心是否偏移。这些检查专门用来揪出"双星冒充行星"。</li>
+            <li>输出"是行星"的概率，超过 0.99 才算验证。</li>
+            <li>把某个分支的输入盖住，看分数怎么变，就能说明它为什么这么判，专家据此复核。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>10 万+</b>开普勒和 TESS 的候选信号</li>
+            <li><b>93.6%</b>召回率（此前最好 76.3%），精度 99%</li>
+            <li><b>301 颗</b>2021 年论文验证的数量（NASA 2026 年称 370 颗）</li>
+          </ul>
+          <p class="limit">只能复核已有候选，还不能从原始数据里自己找信号；"验证"是统计意义上的，样本少的参数区间不可靠。</p>
+          <p class="more-src">来源：<a href="https://arxiv.org/abs/2111.10009">ExoMiner 论文</a> · <a href="https://science.nasa.gov/open-science/deep-learning-exoplanets-tess/">NASA 2026-01</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">迁移学习：借用别处学到的本事<small>Transfer Learning</small></span><span class="gist">先用识别日常照片练出的"看图能力"，在嫦娥一号低分辨率图上学会认坑，再不加任何新标注，直接用到嫦娥二号的高清图上。</span><span class="on-case">案例 · 吉林大学 × 国家天文台</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>起点是国际上已有的目录：7,895 个已识别的坑、1,411 个已知年代的坑。</li>
+            <li>用在海量日常照片上预训练过的网络，在嫦娥一号 120 米分辨率的图上学认坑。</li>
+            <li>不加新标注，迁移到嫦娥二号 7 米分辨率的图上，认出更小的坑。</li>
+            <li>另一组网络结合形态和直径、深度、地层关系，判断坑的年代。</li>
+            <li>4 名中科院科学家抽查核验，并与 3 个人工数据库比对。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>1,411 → 18,996</b>已知年代的坑，从起点到成果</li>
+            <li><b>4.49%</b>新坑误报率，此前方法约 11%</li>
+            <li><b>约 85%–89%</b>年代判断准确率</li>
+          </ul>
+          <p class="limit">相邻地质年代容易混淆；最古老年代的样本极少，测试时只有 2 个。</p>
+          <p class="more-src">来源：<a href="https://www.nature.com/articles/s41467-020-20215-y">Nature Communications 2020</a> · <a href="https://www.chinanews.com/gn/2020/12-23/9369384.shtml">中新网 2020-12</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">样本太少时：半监督与主动学习<small>Semi-supervised · Active Learning</small></span><span class="gist">已知的脉冲星只有一百多个样本，不够教 AI。办法是让它也从大量没标注的数据里学，并只把最拿不准的样本挑给人看。</span><span class="on-case">案例 · FAST × 腾讯优图、复旦大学</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>把射电信号按物理方法处理成几类"信号图"：随频率的延迟、随时间的变化等。</li>
+            <li>多种信号图对齐后一起交给视觉 AI 判断，排除手机、雷达等人造干扰。</li>
+            <li>半监督学习用上大量未标注的图；主动学习只把最拿不准的样本交给专家标注，再反过来训练。</li>
+            <li>留下极少量候选，由天文学家确认。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>约 3,000 万张</b>一周的数据生成的信号图</li>
+            <li><b>1 年 → 3 天</b>人工每秒看 1 张 vs AI</li>
+            <li><b>51 颗</b>3 年找到的脉冲星（企业发布）</li>
+          </ul>
+          <p class="limit">信号弱、干扰多、样本少；快速射电暴的样本更少。各方公布的数据量口径也不一致。</p>
+          <p class="more-src">来源：<a href="https://www.infoq.cn/article/qrxyyvut0yytuzwtdveb">InfoQ 采访复旦团队</a> · <a href="https://cs.fudan.edu.cn/1d/64/c24280a466276/page.htm">复旦大学 2022-11</a> · <a href="https://finance.sina.com.cn/jjxw/2024-11-27/doc-incxphxe6612936.shtml">新浪财经 2024-11</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">差分成像 + 真假分类 + 分发<small>Difference Imaging · Real/Bogus · Broker</small></span><span class="gist">新照片减去同一片天区的历史照片，剩下的就是"变化"；小型神经网络剔除仪器造成的假信号，2 分钟内向全球发出告警。</span><span class="on-case">案例 · 鲁宾天文台</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>每 40 秒拍一片天区，数据几秒内从智利传到美国。</li>
+            <li>与历史模板图相减，找出变亮、变暗或新出现的天体。</li>
+            <li>一个小型卷积神经网络看三张 51×51 像素的小图，判断是真天体还是伪影，低于阈值的不发。</li>
+            <li>2 分钟内发出告警，9 个"经纪人"系统再用机器学习分类，比如判断是不是超新星，分发给各领域科学家。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>80 万条</b>2026 年 2 月首晚的告警</li>
+            <li><b>700 万条</b>满负荷时每晚的预计上限</li>
+            <li><b>10 TB</b>每晚的图像量</li>
+            <li><b>约 94%</b>经纪人 ALeRCE 的分类准确率（在另一台望远镜的数据上）</li>
+          </ul>
+          <p class="limit">700 万条是预期，不是实测；分类器在鲁宾新数据上的准确率还没有公开，作者认为改进空间主要在训练数据。</p>
+          <p class="more-src">来源：<a href="https://rubinobservatory.org/news/first-alerts">鲁宾天文台 2026-02</a> · <a href="https://dmtn-337.lsst.io/">鲁宾技术文档 DMTN-337</a> · <a href="https://arxiv.org/abs/2008.03309">ALeRCE 论文</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">基础模型：自己出题自己练<small>Foundation Model · Self-supervised</small></span><span class="gist">让模型反复做"看现在的太阳，预测一小时后的太阳"这道题，不需要人工标注；学会太阳的演化规律后，再稍加训练去做耀斑预报。</span><span class="on-case">案例 · NASA × IBM Surya</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>整理太阳动力学天文台（SDO）13 个通道的全分辨率图像，每 12 分钟一张。</li>
+            <li>预训练：输入当前图像，预测 60 分钟后的图像；再练连续预测几步。</li>
+            <li>只训练很少一部分参数（LoRA），适配耀斑预报、太阳风速预测等具体任务。</li>
+            <li>模型和代码开源，供各国研究者使用。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>3.66 亿</b>参数</li>
+            <li><b>约 257 TB</b>数据集，训练用其中 9 年</li>
+            <li><b>128 块</b>A100 显卡训练</li>
+            <li><b>24 小时</b>耀斑预报的预测窗口</li>
+          </ul>
+          <p class="limit">论文明确说这是概念验证，没有针对业务化预报优化；NASA 宣传的"高 16%"在论文里找不到对应的算法。</p>
+          <p class="more-src">来源：<a href="https://arxiv.org/html/2508.14112v2">Surya 论文</a> · <a href="https://science.nasa.gov/science-research/artificial-intelligence-model-heliophysics/">NASA 2025-08</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>科学上 AI 多数是"筛选员"，不是"发现者"。最终写进论文的结论，仍要靠科学家复核，或者用其他望远镜独立观测确认。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-air" data-phase="延伸" data-kind="案例" data-chapter="航空国防" data-title="AI 飞行员上了真飞机">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航空 · 国防</div>
+      <h2 class="reveal d1">航空与国防：AI 飞行员已经<em class="hl">上了真飞机</em></h2>
+      <p class="lede reveal d2">军用方向公开信息有限，这里只列官方或权威媒体公开的内容。民航维修、运行的案例见前面"六种用处"。</p>
+    </header>
+    <div class="grid g-wide-left">
+      <div class="card case reveal d2">
+        <div class="thumb tall"><img src="img/x62a.jpg" alt="X-62A VISTA 试验机" loading="lazy"></div>
+        <div class="who"><i class="tag t-try">试验</i>美国 DARPA × 空军</div>
+        <div class="what">X-62A：AI 驾驶 F-16，与人类飞行员真机空战</div>
+        <p>2022 年 12 月到 2023 年 9 月共试飞 21 次，累计改动 10 万多行飞行关键软件，2023 年 9 月开始与有人驾驶的 F-16 真机对抗。官方没有公布胜负；2024 年美国空军部长亲自坐进前舱，评价是"大致打平"。网上流传的"AI 5:0 击败人类"是 2020 年模拟器里的成绩。</p>
+      </div>
+      <div class="stack">
+        <div class="card case reveal d3"><div class="who"><i class="tag t-use">在用</i>美国国家地理空间情报局 · Maven</div><div class="what">AI 识别卫星和航拍图像</div><div class="fig">2<small>万名活跃用户（2025 年 5 月）</small></div><p>一个 20 人的小组达到了伊拉克战争时 2,000 多人小组的效率；在一次演习中，从发现目标到实施打击的时间由数小时缩短到数分钟。</p></div>
+        <div class="card case reveal d4"><div class="who"><i class="tag t-try">试验</i>美国空军 · 协同作战飞机</div><div class="what">无人僚机原型首飞，首飞即半自主</div><div class="fig">556<small>天</small></div><p>YFQ-44A 从设计到首飞用了 556 天。两款原型于 2025 年先后首飞，不是遥控飞行。</p></div>
+      </div>
+    </div>
+    <div class="grid g-4 swipe" style="margin-top:18px">
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">已亮相</i>新华社 · 九三阅兵</div><div class="what">无人僚机首次公开亮相</div><p>官方介绍可"隐蔽出击、广域覆盖、自主协同"，未公开自主化程度。</p></div>
+      <div class="card case reveal d3"><div class="who"><i class="tag t-use">在用</i>美国国防部</div><div class="what">全员内部 AI 平台 GenAI.mil</div><div class="fig">170<small>万用户</small></div><p>全员约 300 万人；2025 年 12 月上线，用于文书、分析等日常工作。</p></div>
+      <div class="card case reveal d4"><div class="who"><i class="tag t-use">在用</i>空客 Skywise</div><div class="what">机队数据平台，预测故障</div><div class="fig">12,000+<small>架</small></div><p>已接入的飞机数量；2026 年拆分为独立子公司。</p></div>
+      <div class="card case reveal d5"><div class="who"><i class="tag t-res">政策</i>中国民航局</div><div class="what">"人工智能+民航"实施意见</div><p>2025 年 12 月发布：2027 年率先实现融合发展，2030 年广泛深度融合，覆盖航班编排、空管指挥与容量调控等。</p></div>
+    </div>
+    <p class="say reveal d5"><b>打个比方</b>AI 在空中先当"僚机"和"情报员"，长机和最终决定权仍在人手里。</p>
+    <div class="src reveal d5">来源：<a href="https://www.darpa.mil/news/2024/ace-ai-aerospace">DARPA 2024-04</a> · <a href="https://defensescoop.com/2024/05/08/kendall-vista-ai-f16-pilot-automation/">DefenseScoop 2024-05</a> · <a href="https://www.nga.mil/news/VADM_Whitworth_Delivers_Keynote_at_2025_GEOINT_Sym.html">NGA 2025-05</a> · <a href="https://theaviationist.com/2025/10/31/anduril-yfq-44a-cca-first-flight/">The Aviationist 2025-10</a> · <a href="https://www.thepaper.cn/newsDetail_forward_31533445">新华社 / 澎湃 2025-09</a> · <a href="https://fortune.com/2026/09/01/pentagon-chatgpt-grok-government-military-ai-members-pete-hegseth-defense-department/">Fortune 2026-09</a> · <a href="https://www.airbus.com/en/newsroom/press-releases/2026-04-airbus-unveils-skywise-subsidiary-integrating-navblue-and-skywise-digital-services-solutions">空客 2026-04</a> · <a href="http://finance.people.com.cn/n1/2025/1209/c1004-40620446.html">人民网 2025-12</a> · 照片：美国空军，公有领域</div>
+  </div>
+</section>
+
+<section class="slide" id="space-air-how" data-phase="延伸" data-kind="原理" data-chapter="航空国防" data-title="飞行员、僚机大脑、情报员、机务">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航空 · 国防 · 怎么做到的</div>
+      <h2 class="reveal d1">四种角色：<em class="hl">飞行员、僚机大脑、情报员、机务</em></h2>
+      <p class="lede reveal d2">航空对安全的要求最严，所以几个案例的共同做法是：AI 只当"外挂"，原有的飞控和安全系统一点不动，随时可以把 AI 拔掉。</p>
+    </header>
+    <div class="section-label reveal d2"><span>X-62A：AI 从仿真到真机</span></div>
+    <ol class="pipeline reveal d2">
+      <li><b>仿真里自学</b><span>强化学习：打赢奖励、打输惩罚，自己摸索打法</span></li>
+      <li><b>合成环境考核</b><span>在高保真模型里打分，达标才准上机</span></li>
+      <li><b>硬件在环</b><span>装进真实机载硬件，在地面先跑一遍</span></li>
+      <li class="human"><b>有人监督试飞</b><span>越界自动断开 AI，安全飞行员随时接管</span></li>
+      <li class="human"><b>飞后复盘</b><span>飞行员的反馈写进训练，下一架次再飞</span></li>
+    </ol>
+    <div class="section-label reveal d3"><span>四个案例的做法 · 点开看细节</span><button type="button" class="expand-all">全部展开</button></div>
+    <div class="more-grid reveal d3">
+      <details class="more">
+        <summary><span class="term">强化学习 + 运行时保障<small>Reinforcement Learning · Run-Time Assurance</small></span><span class="gist">AI 在模拟空战里练出打法；装上真飞机后，由一个独立的"安全监控"盯着它，越界就断开。</span><span class="on-case">案例 · DARPA × 美国空军 X-62A</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>在电脑仿真里不停对练，对手越来越强。承包商称每天打"数百万局"（企业自述）。</li>
+            <li>上机门槛（企业自述）：进攻局击落率高于 90%，防守局被击落低于 10%。</li>
+            <li>AI 运行在一套试验用飞控软件里，与原飞控并行，不替换原飞控。飞机检测到不安全指令时会自动断开 AI。</li>
+            <li>安全红线：最低高度 10,000 英尺，与其他飞机至少间隔 1,000 英尺，触线即中止。</li>
+            <li>每飞一架次就按飞行员反馈修改。例如飞行员反映 AI 用机炮时贴得太近，就加了接近速度约束。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>21 次</b>2022-12 到 2023-09 的试飞</li>
+            <li><b>10 万行+</b>累计改动的飞行关键软件</li>
+            <li><b>600 米</b>与有人驾驶 F-16 的最近距离（约 2,000 英尺）</li>
+            <li><b>0 次</b>安全飞行员按下断开开关</li>
+          </ul>
+          <p class="limit">项目经理承认真机表现与仿真"有差异"。测试只覆盖视距内空战，没有实弹；美国空军部长的评价是"大致打平"，技术"还没完全成熟"。</p>
+          <p class="more-src">来源：<a href="https://www.afrl.af.mil/News/Article-Display/Article/3745032/">美国空军研究实验室 2024-04</a> · <a href="https://defensescoop.com/2024/04/17/darpa-ace-ai-dogfighting-flight-tests-f16/">DefenseScoop 2024-04</a> · <a href="https://defensescoop.com/2024/05/08/kendall-vista-ai-f16-pilot-automation/">DefenseScoop 2024-05</a> · <a href="https://shield.ai/autonomy-for-the-world-x-62-vista/">Shield AI</a> · <a href="https://calspan.com/company/news/x-62a-completes-first-successful-vss-flight">Calspan</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">"身体"和"大脑"分开采购<small>Open Architecture · A-GRA</small></span><span class="gist">政府定一个统一的"插座标准"，机体厂造飞机，软件商做自主"大脑"，谁的好就插谁的。人下任务，飞机自己完成。</span><span class="on-case">案例 · 美国空军协同作战飞机（无人僚机）</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>政府拥有自主软件的接口标准（A-GRA），避免被单一厂商绑定。</li>
+            <li>两家机体厂各造一型，两家软件商的"大脑"分别装上去。</li>
+            <li>地面操作员下达任务指令，飞机自行完成飞行和动作，这就是"半自主"。</li>
+            <li>任务软件与飞控安全部分分开，更新任务软件不影响适航。</li>
+            <li>6 家软件商持续竞争，按作战效果付费。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>556 天</b>YFQ-44A 从设计到首飞（企业说法）</li>
+            <li><b>6 家</b>进入合同池的自主软件商</li>
+            <li><b>150+ 架</b>本十年末前的采购计划</li>
+            <li><b>2027 年夏</b>选定主要自主软件供应商</li>
+          </ul>
+          <p class="limit">自主软件在作战条件下的表现还没有公开数据；具体训练方法未公开。</p>
+          <p class="more-src">来源：<a href="https://www.af.mil/News/Article-Display/Article/4405471/">美国空军 2026-02</a> · <a href="https://www.af.mil/News/Article-Display/Article/4520575/">美国空军 2026-06</a> · <a href="https://www.afmc.af.mil/News/Article-Display/Article/4558599/">美国空军装备司令部</a> · <a href="https://theaviationist.com/2025/10/31/anduril-yfq-44a-cca-first-flight/">The Aviationist</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">目标检测 + 模型认证<small>Computer Vision · Model Accreditation</small></span><span class="gist">卫星图太多，人看不过来。AI 先把疑似飞机、车辆、舰船全部框出来并排序，再交给分析员确认。</span><span class="on-case">案例 · 美国国家地理空间情报局 Maven</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>模型上线前要通过专门的 AI 模型认证，审查开发和测试方法是否稳健。</li>
+            <li>影像进入模型，每天产生数百万个候选目标。</li>
+            <li>分析员复核候选目标，涉及打击决策的必须由人确认身份。</li>
+            <li>全自动生成的情报产品贴上"机器生成"标签，提醒读者自行判断风险。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>20 人 vs 2,000+ 人</b>达到伊拉克战争时同等效率</li>
+            <li><b>−80%</b>一年内推理延迟</li>
+            <li><b>2 个</b>通过认证的模型（2025-05）</li>
+          </ul>
+          <p class="limit">局长原话：AI 要"谦逊"，在识别目标、预警、导航安全这些事上需要人来复核。认证的具体指标和准确率未公开。数字为机构自述。</p>
+          <p class="more-src">来源：<a href="https://www.nga.mil/news/VADM_Whitworth_Delivers_Keynote_at_2025_GEOINT_Sym.html">NGA 2025-05</a> · <a href="https://www.nga.mil/news/NGA_Launches_GEOINT-specific_Artificial_Intelligen.html">NGA 2024-08</a> · <a href="https://breakingdefense.com/2025/06/no-human-hands-nga-circulates-ai-generated-intel-director-says/">Breaking Defense 2025-06</a></p>
+        </div>
+      </details>
+      <details class="more">
+        <summary><span class="term">预测性维护<small>Predictive Maintenance</small></span><span class="gist">把飞机传感器数据和地面维修记录放在一起，AI 学会零件"快坏之前的征兆"，在驾驶舱告警之前就提醒换件。</span><span class="on-case">案例 · 空客 Skywise</span></summary>
+        <div class="more-body">
+          <h4>怎么做</h4>
+          <ol>
+            <li>机载扩展传感器数据和维修信息汇入同一个平台。</li>
+            <li>空客联合达美、GE、利勃海尔、柯林斯，按零部件建故障预测模型；用自然语言处理读维修文本，找重复故障。</li>
+            <li>在告警出现前通知航空公司。</li>
+            <li>机务团队决定是否、何时提前处置，结果再回流改进模型。</li>
+          </ol>
+          <h4>关键数字</h4>
+          <ul class="figs">
+            <li><b>近 12,000 架</b>接入的飞机</li>
+            <li><b>35 次</b>易捷航空一个月避免的技术性取消（客户自述）</li>
+            <li><b>5 万+</b>平台日常用户</li>
+          </ul>
+          <p class="limit">全行业整体减少了多少非计划停场，没有公布；现有数字都是个别客户的说法。新机型要先积累数据才能覆盖。</p>
+          <p class="more-src">来源：<a href="https://www.aircraft.airbus.com/en/services/enhance/skywise-digital-solutions/skywise-fleet-performance">空客 Skywise</a> · <a href="https://www.aircraft.airbus.com/en/newsroom/news/2024-10-keeping-the-fleet-flying">空客 2024-10</a> · <a href="https://www.barchart.com/story/news/140388/palantir-and-airbus-extend-strategic-collaboration">Palantir 2026-02</a></p>
+        </div>
+      </details>
+    </div>
+    <p class="say reveal d4"><b>分清楚</b>航空里的 AI 都是"可拔掉的外挂"：飞控、适航、开火的决定权留在经过认证的系统和人手里。</p>
+  </div>
+</section>
+
+<section class="slide" id="space-tradeoffs" data-chapter="总结" data-title="好处与难点">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker reveal">航天专题 · 总结</div>
+      <h2 class="reveal d1">好在<em class="hl">快、量大、不知疲倦</em>，难在<em class="hl">证明它不出错</em></h2>
+      <p class="lede reveal d2">把前面 7 个环节放在一起看：AI 的长处在各处都一样；难点也一样，集中在"怎么证明它可靠"。这解释了为什么很多案例还停在试验阶段。</p>
+    </header>
+    <div class="pros-cons">
+      <div class="pros">
+        <div class="col-label reveal d2">好处</div>
+        <div class="stack">
+          <div class="card pro reveal d2"><div class="fig">微秒</div><b>快</b><p>美国空军部长：最好的飞行员反应要零点几秒，AI 只要微秒；情报"发现到打击"从数小时缩到数分钟。</p></div>
+          <div class="card pro reveal d3"><div class="fig">1,000<small>次/天</small></div><b>量大</b><p>Starlink 每天上千次自动避碰；鲁宾天文台每晚最多 700 万条告警；FAST 一周的信号图，人看要一年，AI 3 天。</p></div>
+          <div class="card pro reveal d3"><div class="fig">7×24</div><b>不知疲倦</b><p>火星车在等地面回话的空档里自己挑石头做测量；欧空局估计每颗低轨卫星每周有数百条碰撞预警要筛。</p></div>
+          <div class="card pro reveal d4"><div class="fig">20<small>vs 2,000</small></div><b>人力杠杆</b><p>美国情报部门 20 人的小组达到伊拉克战争时 2,000 多人的效率；ExoMiner 召回率 93.6%，此前最好的方法是 76.3%。</p></div>
+        </div>
+      </div>
+      <div class="cons">
+        <div class="col-label reveal d2">难点 · 点开看依据</div>
+        <div class="stack reveal d3">
+          <details class="more">
+            <summary><span class="term">认证跟不上<small>Certification</small></span><span class="gist">现行标准要求每行代码都能追溯到需求，AI 是从数据里"学"出来的，没法这样追溯。</span></summary>
+            <div class="more-body">
+              <p>美国联邦航空局 2024 年的路线图承认，现有软件认证指导"不足以"覆盖学习型 AI，高安全等级的保证方法可能还要 3–5 年。欧洲航空安全局的时间表：辅助人的 AI 约 2025 年，人机协作约 2035 年（"不是正式目标"），无人监督的自主在 2035–2050 年间逐步推进。民航局的"人工智能+民航"意见也提出要建立全生命周期安全管理和算法安全评估。</p>
+              <p class="more-src">来源：<a href="https://www.faa.gov/aircraft/air_cert/step/roadmap_for_AI_safety_assurance">FAA 2024-07</a> · <a href="https://www.easa.europa.eu/en/downloads/137919/en">EASA 路线图 2.0</a> · <a href="https://www.easa.europa.eu/en/newsroom-and-events/news/easa-releases-latest-issue-its-concept-paper-artificial-intelligence">EASA 2026-06</a> · <a href="https://www.caac.gov.cn/XXGK/XXGK/ZCFBJD/202512/t20251202_229277.html">民航局 2025-12</a></p>
+            </div>
+          </details>
+          <details class="more">
+            <summary><span class="term">星上算力落后<small>Radiation-hardened Computing</small></span><span class="gist">太空芯片要抗辐射，性能落后地面几十年；用商用芯片，又怕"算错了不报错"。</span></summary>
+            <div class="more-body">
+              <p>毅力号主处理器最高 200 MHz，NASA 称现役航天计算机是"近 30 年前开发的"；新一代芯片初测约快 500 倍，仍在测试。Google 的 AI 芯片地面辐照测试显示，主要风险是静默错误，约每 300 万次推理 1 次。所以星上 AI 目前多做"筛数据"，关键控制仍用验证过的传统算法。</p>
+              <p class="more-src">来源：<a href="https://science.nasa.gov/mission/mars-2020-perseverance/rover-components/">NASA</a> · <a href="https://www.nasa.gov/technology/hello-universe-nasas-next-gen-space-processor-undergoes-testing/">NASA 2026-05</a> · <a href="https://arxiv.org/pdf/2511.19468">Google 2025-11</a></p>
+            </div>
+          </details>
+          <details class="more">
+            <summary><span class="term">真实故障样本太少<small>Data Scarcity</small></span><span class="gist">航天任务少、故障更少，没有足够的"错题"教 AI。</span></summary>
+            <div class="more-body">
+              <p>欧空局的卫星遥测异常检测基准里，异常数据只占 0.57%–1.80%；已知的脉冲星样本只有一百多个；Φsat-1 的相机是新的，根本没有现成数据。常见的补救办法有：用仿真生成合成数据、用迁移学习借用别处学到的本事、只挑最拿不准的样本请专家标注。</p>
+              <p class="more-src">来源：<a href="https://arxiv.org/abs/2406.17826">ESA-ADB 基准</a> · <a href="https://www.infoq.cn/article/qrxyyvut0yytuzwtdveb">InfoQ 复旦团队</a> · <a href="https://arxiv.org/abs/2409.11661">合成图训练位姿估计</a></p>
+            </div>
+          </details>
+          <details class="more">
+            <summary><span class="term">黑箱，说不清为什么<small>Explainability</small></span><span class="gist">工程上出了问题要归零，AI 却往往只给结论、不给理由，还可能"一本正经地说错"。</span></summary>
+            <div class="more-body">
+              <p>美国联邦航空局指出，AI 除了输入和输出之外，没有别的信息能解释它的内部机制。国务院"人工智能+"意见要求防范模型的黑箱、幻觉风险；"天玄"测评中就出现过坐标正负号搞反的错误。也有专门为可解释设计的例子：NASA 称 ExoMiner"不是黑箱"，能讲清哪项检查导致了判定。</p>
+              <p class="more-src">来源：<a href="https://www.faa.gov/aircraft/air_cert/step/roadmap_for_AI_safety_assurance">FAA 2024-07</a> · <a href="https://www.gov.cn/zhengce/content/202508/content_7037861.htm">国务院 2025-08</a> · <a href="https://www.jpl.nasa.gov/news/new-deep-learning-method-adds-301-planets-to-keplers-total-count/">NASA JPL 2021</a></p>
+            </div>
+          </details>
+          <details class="more">
+            <summary><span class="term">仿真里行，真机未必行<small>Sim-to-Real Gap</small></span><span class="gist">AI 大多在仿真里练出来，真实的光照、气流、器件和仿真总有差距。</span></summary>
+            <div class="more-body">
+              <p>X-62A 项目经理承认真机表现与仿真"有差异"；欧空局专门办竞赛，考核"用合成图训练、在真实光照图上测试"的卫星位姿识别；天问一号着陆系统在地面做了上千次试验。弥补差距只能靠大量地面试验和循序渐进的真机验证。</p>
+              <p class="more-src">来源：<a href="https://defensescoop.com/2024/04/17/darpa-ace-ai-dogfighting-flight-tests-f16/">DefenseScoop 2024-04</a> · <a href="https://kelvins.esa.int/pose-estimation-2021/">ESA SPEC2021</a> · <a href="https://lw.news.cn/2023-01/16/c_1310691036.htm">瞭望 2023-01</a></p>
+            </div>
+          </details>
+          <details class="more">
+            <summary><span class="term">可能被骗、被投毒<small>Adversarial Attacks</small></span><span class="gist">在车顶贴一块特制图案，就能让卫星图识别失灵；训练数据被做手脚，模型就会埋下"暗门"。</span></summary>
+            <div class="more-body">
+              <p>研究表明，物理对抗贴片会显著削弱俯拍目标检测，对处理卫星影像的 AI 构成"明显威胁"。欧空局资助的项目把"持续更新的遥测预测模型被投毒"列为真实威胁，专门办了比赛。</p>
+              <p class="more-src">来源：<a href="https://arxiv.org/abs/2108.11765">对抗贴片研究</a> · <a href="https://arxiv.org/abs/2506.01849">ESA 资助的 AI 安全项目</a></p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+    <p class="say reveal d4"><b>结论</b>所以 AI 在航天里先落在三类地方：一是地面，比如设计、质检、数据处理；二是出错代价可控的环节，比如判云、筛候选；三是有人或规则兜底的位置。上天的关键控制仍交给经过验证的传统算法，AI 当"建议者"，人当"把关者"。</p>
+    <div class="src reveal d5">好处一栏来源：<a href="https://defensescoop.com/2024/04/17/darpa-ace-ai-dogfighting-flight-tests-f16/">DefenseScoop 2024-04</a> · <a href="https://www.nga.mil/news/VADM_Whitworth_Delivers_Keynote_at_2025_GEOINT_Sym.html">NGA 2025-05</a> · <a href="https://space-safety.starlink.com/docs/space-safety-articles/starlink_cola_conops/">Starlink</a> · <a href="https://rubinobservatory.org/news/first-alerts">鲁宾天文台</a> · <a href="https://www.infoq.cn/article/qrxyyvut0yytuzwtdveb">InfoQ</a> · <a href="https://www.esa.int/Space_Safety/Space_Debris/Automating_collision_avoidance">欧空局</a> · <a href="https://arxiv.org/abs/2111.10009">ExoMiner 论文</a></div>
+  </div>
+</section>
+<!-- ==================== 附录 ==================== -->
+<section class="slide" id="space-cases" data-chapter="附录" data-title="航天案例库">
+  <div class="slide-inner">
+    <header class="slide-head">
+      <div class="kicker">附录</div>
+      <h2>航天案例库</h2>
+      <p class="lede">按环节排列，标出落地程度，方便查找和引用。表格可以上下滚动；每条的实现细节见对应环节的原理页。</p>
+    </header>
+    <div class="case-table-wrap">
+      <table class="case-table">
+        <thead><tr><th>环节</th><th>机构</th><th>做了什么</th><th>效果</th><th>出处</th></tr></thead>
+        <tbody>
+          <tr><td>设计</td><td><b>诺格 × Luminary × NVIDIA</b></td><td><i class="tag t-res">研究</i>AI 代理模型速算推力器喷管</td><td>每次 2–5 秒，快 3,000 倍以上；尚无实物</td><td><a href="https://luminary.ai/blog/a-new-structural-advantage-how-physics-ai-is-transforming-spacecraft-design-at-northrop-grumman">Luminary</a></td></tr>
+          <tr><td>设计</td><td><b>NASA 戈达德</b></td><td><i class="tag t-use">在用</i>生成式设计任务结构件</td><td>专家 2 天 → AI 约 1 小时；最多减重 2/3</td><td><a href="https://www.nasa.gov/technology/goddard-tech/nasa-turns-to-ai-to-design-mission-hardware/">NASA</a></td></tr>
+          <tr><td>设计</td><td><b>LEAP 71</b></td><td><i class="tag t-try">试验</i>计算工程模型自动设计发动机</td><td>两台 20 千牛发动机，规格到点火不到 3 周</td><td><a href="https://leap71.com/2025/12/11/leap-71-hot-fires-two-orbital-class-methalox-engines-designed-autonomously-by-noyron/">LEAP 71</a></td></tr>
+          <tr><td>设计</td><td><b>北京科学智能研究院等</b></td><td><i class="tag t-try">试验</i>"Prime一行"智能体串起设计到试车</td><td>构想到实物约 2 周</td><td><a href="http://finance.people.com.cn/n1/2026/0615/c1004-40740484.html">人民网</a></td></tr>
+          <tr><td>制造</td><td><b>航天科技八院 800 所</b></td><td><i class="tag t-try">试验</i>AI 判读焊缝数字射线图像</td><td>30 万张训练；双盲准确率 90% 以上</td><td><a href="https://www.spacechina.com/n25/n2014789/n2014809/c2996358/content.html">中国航天报</a></td></tr>
+          <tr><td>制造</td><td><b>八院控制所</b></td><td><i class="tag t-use">在用</i>长征六号改遥测智能判读</td><td>伺服、惯组数据从事后分析变为实时判读</td><td><a href="https://www.spacechina.com/n25/n2014789/n2014809/c4375981/content.html">中国航天报</a></td></tr>
+          <tr><td>制造</td><td><b>航天科技集团</b></td><td><i class="tag t-use">初步应用</i>"天玄"行业大模型</td><td>108 个场景，45 家单位；808 所本地化部署</td><td><a href="https://www.spacechina.com/n25/n2018089/n2530233/c4549761/content.html">中国航天报</a></td></tr>
+          <tr><td>制造</td><td><b>上海航天设备制造总厂</b></td><td><i class="tag t-use">在用</i>质量追溯（主要靠数据贯通）</td><td>几天 → 5 分钟</td><td><a href="https://export.shobserver.com/baijiahao/html/1099486.html">上观新闻</a></td></tr>
+          <tr><td>在轨</td><td><b>SpaceX Starlink</b></td><td><i class="tag t-use">在用</i>卫星自主避碰（自动化，非 AI）</td><td>半年 207,152 次；阈值千万分之三</td><td><a href="https://space-safety.starlink.com/docs/space-safety-articles/starlink_cola_conops/">Starlink</a></td></tr>
+          <tr><td>在轨</td><td><b>之江实验室</b></td><td><i class="tag t-try">试验</i>三体计算星座在轨判定伽马暴</td><td>下传数据约万分之一，准确率 99%</td><td><a href="http://www.news.cn/tech/20260213/269a5565afda44a48c527c05f9868cfb/c.html">新华网</a></td></tr>
+          <tr><td>在轨</td><td><b>NASA JPL</b></td><td><i class="tag t-try">试验</i>卫星先看云再决定拍哪里</td><td>全程 60–90 秒，8 次飞行试验</td><td><a href="https://www.jpl.nasa.gov/news/how-nasa-is-testing-ai-to-make-earth-observing-satellites-smarter/">NASA JPL</a></td></tr>
+          <tr><td>在轨</td><td><b>西安寰宇卫星测控</b></td><td><i class="tag t-use">在用</i>AI 监测卫星健康数据</td><td>2024 年有效预警 200 余次（企业数据）</td><td><a href="https://www.sxdaily.com.cn/2025-03/21/content_11107437.html">陕西日报</a></td></tr>
+          <tr><td>遥感</td><td><b>自然资源部 × 阿里云</b></td><td><i class="tag t-try">试用</i>"后土"识别国土地类</td><td>约 70% → 90%（企业参与发布）</td><td><a href="https://www.163.com/dy/article/JRLVLL5T05118O92.html">阿里云</a></td></tr>
+          <tr><td>遥感</td><td><b>Google DeepMind</b></td><td><i class="tag t-use">已开放</i>AlphaEarth 全球地表嵌入</td><td>误差比次优方法低约 24%，存储 1/16</td><td><a href="https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/">DeepMind</a></td></tr>
+          <tr><td>遥感</td><td><b>NASA × IBM</b></td><td><i class="tag t-use">开源</i>Prithvi 地理空间基础模型</td><td>火烧迹地标注 540 → 135 张，效果相当</td><td><a href="https://arxiv.org/abs/2310.18660">论文</a></td></tr>
+          <tr><td>遥感</td><td><b>中科院空天院</b></td><td><i class="tag t-try">试运行</i>"空天·灵眸"3.0 遥感大模型</td><td>百亿参数；吞吐量 2.4 倍以上</td><td><a href="https://news.sciencenet.cn/htmlnews/2024/10/531092.shtm">光明日报</a></td></tr>
+          <tr><td>深空</td><td><b>NASA 毅力号</b></td><td><i class="tag t-use">在用</i>自主驾驶</td><td>90% 以上里程自主；每小时最高 120 米</td><td><a href="https://science.nasa.gov/blogs/perseverance-mars-rover/2026/10/12/nasas-perseverance-sets-off-world-record-for-total-distance-driven/">NASA</a></td></tr>
+          <tr><td>深空</td><td><b>NASA JPL × Anthropic</b></td><td><i class="tag t-try">试验</i>Claude 规划火星车路线</td><td>两次共约 456 米</td><td><a href="https://www.nasa.gov/missions/mars-2020-perseverance/perseverance-rover/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/">NASA</a></td></tr>
+          <tr><td>深空</td><td><b>NASA 毅力号</b></td><td><i class="tag t-use">在用</i>地形相对导航着陆</td><td>定位误差 3.2 公里 → 40 米；安全着陆概率 99%</td><td><a href="https://www.nasa.gov/directorates/stmd/impact-story-terrain-relative-navigation/">NASA</a></td></tr>
+          <tr><td>深空</td><td><b>天问一号 · 嫦娥六号</b></td><td><i class="tag t-use">在用</i>自主着陆，粗精接力避障</td><td>100 米悬停；天问约 9 分钟</td><td><a href="https://www.chinanews.com/gn/2021/05-16/9478285.shtml">中新网</a></td></tr>
+          <tr><td>深空</td><td><b>NASA DART</b></td><td><i class="tag t-use">在用</i>自主瞄准撞击小行星</td><td>最后 4 小时无人干预；周期缩短 32 分钟</td><td><a href="https://www.nasa.gov/news-release/nasa-confirms-dart-mission-impact-changed-asteroids-motion-in-space/">NASA</a></td></tr>
+          <tr><td>科学</td><td><b>吉林大学 × 国家天文台</b></td><td><i class="tag t-res">研究</i>迁移学习识别月球撞击坑</td><td>新识别 109,956 个</td><td><a href="https://www.nature.com/articles/s41467-020-20215-y">Nature Communications</a></td></tr>
+          <tr><td>科学</td><td><b>NASA ExoMiner</b></td><td><i class="tag t-res">研究</i>复核系外行星候选</td><td>论文验证 301 颗（NASA 称 370 颗）</td><td><a href="https://arxiv.org/abs/2111.10009">论文</a></td></tr>
+          <tr><td>科学</td><td><b>国家天文台 × 腾讯优图</b></td><td><i class="tag t-use">在用</i>AI 筛选 FAST 脉冲星候选</td><td>3 年 51 颗（企业发布）</td><td><a href="https://finance.sina.com.cn/jjxw/2024-11-27/doc-incxphxe6612936.shtml">新浪财经</a></td></tr>
+          <tr><td>科学</td><td><b>鲁宾天文台</b></td><td><i class="tag t-use">在用</i>差分成像加机器学习分拣告警</td><td>满负荷每晚最多 700 万条，2 分钟内发出</td><td><a href="https://rubinobservatory.org/news/first-alerts">鲁宾天文台</a></td></tr>
+          <tr><td>科学</td><td><b>NASA × IBM</b></td><td><i class="tag t-res">研究</i>Surya 太阳基础模型</td><td>3.66 亿参数，9 年数据训练，已开源</td><td><a href="https://arxiv.org/html/2508.14112v2">论文</a></td></tr>
+          <tr><td>国防</td><td><b>DARPA × 美国空军</b></td><td><i class="tag t-try">试验</i>X-62A AI 驾驶 F-16 真机空战</td><td>21 次试飞；官方未公布胜负</td><td><a href="https://www.afrl.af.mil/News/Article-Display/Article/3745032/">AFRL</a></td></tr>
+          <tr><td>国防</td><td><b>美国空军</b></td><td><i class="tag t-try">试验</i>无人僚机半自主首飞</td><td>YFQ-44A 设计到首飞 556 天</td><td><a href="https://www.af.mil/News/Article-Display/Article/4405471/">美国空军</a></td></tr>
+          <tr><td>国防</td><td><b>美国 NGA Maven</b></td><td><i class="tag t-use">在用</i>AI 识别卫星和航拍图像</td><td>2 万用户；20 人顶 2,000 多人</td><td><a href="https://www.nga.mil/news/VADM_Whitworth_Delivers_Keynote_at_2025_GEOINT_Sym.html">NGA</a></td></tr>
+          <tr><td>航空</td><td><b>空客 Skywise</b></td><td><i class="tag t-use">在用</i>预测性维护</td><td>接入近 12,000 架飞机</td><td><a href="https://www.airbus.com/en/newsroom/press-releases/2026-04-airbus-unveils-skywise-subsidiary-integrating-navblue-and-skywise-digital-services-solutions">空客</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="src">图片：NASA、NASA/JPL-Caltech/UofA、美国空军（公有领域）；长征五号照片来自中国新闻社，CC BY 3.0。</div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

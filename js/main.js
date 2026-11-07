@@ -9,6 +9,7 @@
   const slides = Array.from(document.querySelectorAll(".slide"));
   const totalSlides = slides.length;
   const tocList = document.querySelector(".toc-list");
+  const tocScroll = document.querySelector(".toc-scroll");
   const progressFill = document.querySelector(".toc-progress-fill");
   const progressText = document.querySelector(".toc-progress-text");
   const topbarTitle = document.querySelector(".topbar-title");
@@ -29,80 +30,91 @@
     chapter.slides.push({ slide, index });
   });
 
+  /* 竖向轨道：每个章节是轨道上的一个节点，读到哪里，轨道就亮到哪里。
+     同一阶段（data-phase）的章节归在一个小标题下；多页的章节可以展开或收起。 */
   const slideLinks = new Map();
   const chapterItems = [];
-  let previousPart = "";
+  const rail = document.createElement("li");
+  rail.className = "toc-rail";
+  rail.setAttribute("aria-hidden", "true");
+  rail.innerHTML = "<i></i>";
+  const railFill = rail.firstElementChild;
+  tocList.appendChild(rail);
+
+  const slideLabel = (slide) =>
+    slide.dataset.kind ? `<i class="toc-kind">${slide.dataset.kind}</i>${slide.dataset.title}` : slide.dataset.title;
+
+  let previousPhase = "";
   chapters.forEach((chapter) => {
-    /* 同属一个专题的章节（data-part）在目录里归到一个小标题下 */
-    const part = chapter.slides[0].slide.dataset.part ?? "";
-    if (part && part !== previousPart) {
-      const partItem = document.createElement("li");
-      partItem.className = "toc-part";
-      partItem.textContent = part;
-      tocList.appendChild(partItem);
+    const firstSlide = chapter.slides[0].slide;
+    const phase = firstSlide.dataset.phase ?? "";
+    if (phase && phase !== previousPhase) {
+      const phaseItem = document.createElement("li");
+      phaseItem.className = "toc-phase";
+      phaseItem.textContent = phase;
+      tocList.appendChild(phaseItem);
     }
-    previousPart = part;
+    previousPhase = phase;
+
     const item = document.createElement("li");
-    item.className = part ? "toc-chapter in-part" : "toc-chapter";
-    const firstSlideId = chapter.slides[0].slide.id;
-    item.innerHTML = `<a href="#${firstSlideId}">${chapter.name}</a>`;
-    const subList = document.createElement("ol");
-    subList.className = "toc-slides";
-    chapter.slides.forEach(({ slide }) => {
-      const link = document.createElement("a");
-      link.href = `#${slide.id}`;
-      link.textContent = slide.dataset.title;
-      const subItem = document.createElement("li");
-      subItem.appendChild(link);
-      subList.appendChild(subItem);
-      slideLinks.set(slide, link);
-    });
-    item.appendChild(subList);
+    item.className = phase ? "toc-chapter in-phase" : "toc-chapter";
+    const hasPages = chapter.slides.length > 1;
+    item.innerHTML =
+      `<div class="toc-row"><a class="toc-node" href="#${firstSlide.id}">${chapter.name}</a>` +
+      (hasPages ? `<button type="button" class="toc-fold" aria-expanded="false" aria-label="展开或收起：${chapter.name}"></button>` : "") +
+      "</div>";
+    if (hasPages) {
+      const wrap = document.createElement("div");
+      wrap.className = "toc-slides-wrap";
+      const subList = document.createElement("ol");
+      subList.className = "toc-slides";
+      chapter.slides.forEach(({ slide }) => {
+        const subItem = document.createElement("li");
+        subItem.innerHTML = `<a href="#${slide.id}">${slideLabel(slide)}</a>`;
+        subList.appendChild(subItem);
+        slideLinks.set(slide, subItem.firstElementChild);
+      });
+      wrap.appendChild(subList);
+      item.appendChild(wrap);
+      item.querySelector(".toc-fold").addEventListener("click", () => {
+        const expanded = !item.classList.contains("is-expanded");
+        setExpanded(item, expanded);
+        /* 手动展开的章节会一直开着，直到手动收起 */
+        item.classList.toggle("is-pinned", expanded);
+      });
+    } else {
+      slideLinks.set(firstSlide, item.querySelector(".toc-node"));
+    }
     tocList.appendChild(item);
     chapterItems.push({ item, chapter });
   });
 
-  /* ---------- 航天专题路线条：每页顶部标出当前在哪个环节、哪一页 ---------- */
-  const trailModules = chapters.filter((chapter) => chapter.slides[0].slide.dataset.phase);
-  const trailPhases = [];
-  trailModules.forEach((chapter) => {
-    const phaseName = chapter.slides[0].slide.dataset.phase;
-    let phase = trailPhases.at(-1);
-    if (!phase || phase.name !== phaseName) {
-      phase = { name: phaseName, modules: [] };
-      trailPhases.push(phase);
-    }
-    phase.modules.push(chapter);
-  });
-  function buildTrail(currentSlide) {
-    const nav = document.createElement("nav");
-    nav.className = "trail";
-    nav.setAttribute("aria-label", "航天专题路线");
-    nav.innerHTML = trailPhases
-      .map((phase) => {
-        const moduleLinks = phase.modules
-          .map((chapter) => {
-            const isCurrent = chapter.slides.some(({ slide }) => slide === currentSlide);
-            const pageMarks = chapter.slides
-              .map(({ slide }) => `<i class="${slide === currentSlide ? "on" : ""}">${slide.dataset.kind}</i>`)
-              .join("");
-            const pages = isCurrent ? `<span class="trail-pages">${pageMarks}</span>` : "";
-            return `<a class="trail-mod${isCurrent ? " is-current" : ""}" href="#${chapter.slides[0].slide.id}">${chapter.name}${pages}</a>`;
-          })
-          .join("");
-        return `<div class="trail-phase"><span class="trail-phase-name">${phase.name}</span><div class="trail-mods">${moduleLinks}</div></div>`;
-      })
-      .join("");
-    return nav;
+  function setExpanded(item, expanded) {
+    const fold = item.querySelector(".toc-fold");
+    if (!fold) return;
+    item.classList.toggle("is-expanded", expanded);
+    fold.setAttribute("aria-expanded", String(expanded));
   }
-  slides
-    .filter((slide) => slide.dataset.trail !== undefined)
-    .forEach((slide) => {
-      const trail = buildTrail(slide);
-      slide.querySelector(".slide-inner").prepend(trail);
-      const current = trail.querySelector(".is-current");
-      if (current) trail.scrollLeft = current.offsetLeft - trail.clientWidth / 2 + current.offsetWidth / 2;
-    });
+
+  /* 轨道亮到当前章节节点的位置；展开收起有过渡动画，结束后再量一次 */
+  let activeItem = null;
+  function updateRail() {
+    if (!activeItem) return;
+    const node = activeItem.querySelector(".toc-node");
+    const nodeBox = node.getBoundingClientRect();
+    railFill.style.height = `${nodeBox.top - rail.getBoundingClientRect().top + nodeBox.height / 2}px`;
+  }
+  window.addEventListener("resize", updateRail);
+  tocList.addEventListener("transitionend", (event) => {
+    if (event.target.classList.contains("toc-slides-wrap")) updateRail();
+  });
+
+  function keepInView(element) {
+    const listBox = tocScroll.getBoundingClientRect();
+    const box = element.getBoundingClientRect();
+    if (box.top < listBox.top) tocScroll.scrollTop -= listBox.top - box.top + 12;
+    else if (box.bottom > listBox.bottom) tocScroll.scrollTop += box.bottom - listBox.bottom + 12;
+  }
 
   /* ---------- 原理页：一键展开或收起全部细节 ---------- */
   document.querySelectorAll(".expand-all").forEach((button) => {
@@ -138,18 +150,24 @@
     let reachedActive = false;
     chapterItems.forEach(({ item, chapter }) => {
       const isActive = chapter.slides.some((entry) => entry.slide === slide);
+      if (isActive && item !== activeItem) {
+        if (activeItem && !activeItem.classList.contains("is-pinned")) setExpanded(activeItem, false);
+        setExpanded(item, true);
+        activeItem = item;
+      }
       item.classList.toggle("is-active", isActive);
       if (isActive) reachedActive = true;
       item.classList.toggle("is-done", !reachedActive);
     });
+    updateRail();
     const percent = ((index + 1) / totalSlides) * 100;
     progressFill.style.width = `${percent}%`;
     progressText.textContent = `${pad(index + 1)} / ${pad(totalSlides)}`;
-    topbarTitle.textContent = `${slide.dataset.chapter} · ${slide.dataset.title}`;
+    const kind = slide.dataset.kind ? `${slide.dataset.kind}：` : "";
+    topbarTitle.textContent = `${slide.dataset.chapter} · ${kind}${slide.dataset.title}`;
     topbarCount.textContent = `${index + 1}/${totalSlides}`;
     topbarProgress.style.width = `${percent}%`;
-    const activeLink = slideLinks.get(slide);
-    if (activeLink) activeLink.scrollIntoView({ block: "nearest" });
+    keepInView(slideLinks.get(slide));
   }
 
   const centerObserver = new IntersectionObserver(

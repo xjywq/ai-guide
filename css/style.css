@@ -332,6 +332,7 @@ img { display: block; max-width: 100%; }
 
 /* 移动端顶栏 */
 .topbar { display: none; }
+.toc-close, .toc-scrim { display: none; }
 
 /* ============ 幻灯片 ============ */
 main { margin-left: var(--toc-width); }
@@ -770,15 +771,64 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
     border-bottom: 1px solid var(--line);
     font-size: 13px;
   }
-  .topbar button {
-    border: 1px solid var(--line);
+  .topbar-menu {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid rgba(42, 120, 214, 0.35);
     background: #fff;
-    border-radius: 8px;
-    padding: 4px 10px;
+    border-radius: 999px;
+    padding: 5px 12px 5px 10px;
     font: inherit;
-    color: var(--ink);
+    font-weight: 600;
+    color: var(--accent);
     cursor: pointer;
   }
+  /* 三道横线的菜单图标 */
+  .topbar-menu::before {
+    content: "";
+    width: 14px;
+    height: 10px;
+    background:
+      linear-gradient(currentColor, currentColor) top / 100% 1.5px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat,
+      linear-gradient(currentColor, currentColor) bottom / 100% 1.5px no-repeat;
+  }
+  /* 目录抽屉：右上角"关闭"，外面盖一层暗色，点暗色处也能关 */
+  .toc-close {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    position: absolute;
+    top: 18px;
+    right: 16px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink-2);
+    cursor: pointer;
+  }
+  .toc-close::after { content: "✕"; font-size: 11px; }
+  .toc-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: rgba(15, 23, 42, 0.38);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  body.toc-open .toc-scrim { opacity: 1; pointer-events: auto; }
+  body.toc-open { overflow: hidden; }
+  .toc { padding-top: 64px; }
+  .toc-fold { width: 38px; height: 38px; }
+  .toc-node { padding: 8px 0; }
+  .toc-slides a { padding: 6px 8px; }
+  .toc-hint { display: none; }
   .topbar .topbar-title { flex: 1; color: var(--ink-2); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
   .topbar .topbar-count { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
   .topbar-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s; }
@@ -855,8 +905,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outlin
 .use-card h3 { font-size: 21px; margin: 6px 0 4px; }
 .use-card .fig { font-family: var(--font-num); font-size: 30px; font-weight: 600; color: var(--ink); margin-top: 10px; line-height: 1.2; }
 .use-card .fig small { font-size: 14px; color: var(--ink-2); font-weight: 400; margin-left: 4px; }
-a.use-card { text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; }
-a.use-card:hover { transform: translateY(-2px); box-shadow: 0 2px 4px rgba(15, 23, 42, 0.05), 0 16px 36px rgba(42, 120, 214, 0.12); }
 
 /* 讲给别人听 */
 .talk { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; }
@@ -1225,23 +1273,26 @@ details.more {
   transition: border-color 0.2s;
 }
 details.more[open] { border-color: rgba(42, 120, 214, 0.4); background: var(--card-solid); }
-details.more > summary { list-style: none; position: relative; cursor: pointer; padding: 13px 46px 13px 16px; }
+details.more > summary { list-style: none; display: block; cursor: pointer; padding: 13px 16px 12px; border-radius: 12px; }
 details.more > summary::-webkit-details-marker { display: none; }
+/* 每张可展开的卡片底部都有同一个"展开细节"标签，一眼能看出可以点 */
 details.more > summary::after {
-  content: "";
-  position: absolute;
-  right: 14px;
-  top: 15px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 1px solid rgba(42, 120, 214, 0.35);
-  background:
-    linear-gradient(var(--accent), var(--accent)) center / 10px 1.5px no-repeat,
-    linear-gradient(var(--accent), var(--accent)) center / 1.5px 10px no-repeat;
-  transition: transform 0.25s;
+  content: "展开细节　＋";
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid rgba(42, 120, 214, 0.28);
+  transition: background 0.2s, color 0.2s;
 }
-details.more[open] > summary::after { transform: rotate(45deg); }
+details.more[open] > summary::after { content: "收起　－"; background: transparent; }
+details.more:not([open]):hover { border-color: rgba(42, 120, 214, 0.45); box-shadow: 0 10px 26px rgba(42, 120, 214, 0.12); }
+details.more:not([open]) > summary:hover::after { color: #fff; background: var(--accent); }
 details.more > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 12px; }
 .more .term { display: block; font-size: 16.5px; font-weight: 700; color: var(--ink); line-height: 1.4; }
 .more .term small { font-family: var(--font-mono); font-size: 11.5px; font-weight: 400; color: var(--ink-3); margin-left: 6px; letter-spacing: 0.02em; }
@@ -1289,12 +1340,9 @@ details.more > summary:focus-visible { outline: 2px solid var(--accent); outline
 .pros-cons .cons .col-label { color: var(--series-2); }
 .pros-cons .stack { gap: 10px; }
 .cons details.more[open] { border-color: rgba(235, 104, 52, 0.45); }
-.cons details.more > summary::after {
-  border-color: rgba(235, 104, 52, 0.4);
-  background:
-    linear-gradient(var(--series-2), var(--series-2)) center / 10px 1.5px no-repeat,
-    linear-gradient(var(--series-2), var(--series-2)) center / 1.5px 10px no-repeat;
-}
+.cons details.more > summary::after { color: var(--series-2); background: rgba(235, 104, 52, 0.08); border-color: rgba(235, 104, 52, 0.3); }
+.cons details.more:not([open]):hover { border-color: rgba(235, 104, 52, 0.45); box-shadow: 0 10px 26px rgba(235, 104, 52, 0.1); }
+.cons details.more:not([open]) > summary:hover::after { color: #fff; background: var(--series-2); }
 .cons .more-body h4 { color: var(--series-2); }
 .pro { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 14px; align-items: baseline; padding: 14px 16px; }
 .pro .fig { grid-row: span 2; font-family: var(--font-num); font-size: 26px; font-weight: 600; color: var(--accent); line-height: 1.1; min-width: 100px; }
@@ -1329,8 +1377,7 @@ details.more > summary:focus-visible { outline: 2px solid var(--accent); outline
   .pipeline b { font-size: 14.5px; }
   .pipeline span { font-size: 13px; }
   .more-grid, .more-grid.g-3 { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  details.more > summary { padding: 11px 42px 11px 13px; }
-  details.more > summary::after { top: 12px; right: 12px; }
+  details.more > summary { padding: 11px 13px 10px; }
   .more .term { font-size: 15.5px; }
   .more .term small { display: block; margin-left: 0; }
   .more .gist { font-size: 13.5px; }
@@ -1373,4 +1420,17 @@ details.more > summary:focus-visible { outline: 2px solid var(--accent); outline
   .cover-map li { padding: 0 0 0 16px; border-left: 2px solid rgba(42, 120, 214, 0.35); }
   .cover-map li::before { display: none; }
   .cover-map b { font-size: 16px; }
+}
+
+/* 正文里提到"展开细节"标签时的样例，与卡片上的标签同款 */
+.cue-sample {
+  display: inline-block;
+  margin: 0 3px;
+  padding: 0 9px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  background: #fff;
+  border: 1px solid rgba(42, 120, 214, 0.28);
 }

@@ -243,10 +243,21 @@
   });
 
   /* ---------- 移动端目录开关 ---------- */
-  const tocToggle = document.querySelector(".topbar button");
-  tocToggle.addEventListener("click", () => document.body.classList.toggle("toc-open"));
+  /* 打开后可以用四种方式关上：点"关闭"、点目录外的暗色区域、按 Esc、点目录里任一链接 */
+  const tocToggle = document.querySelector(".topbar-menu");
+  function setTocOpen(open) {
+    document.body.classList.toggle("toc-open", open);
+    tocToggle.setAttribute("aria-expanded", String(open));
+    if (open) updateRail();
+  }
+  tocToggle.addEventListener("click", () => setTocOpen(!document.body.classList.contains("toc-open")));
+  document.querySelector(".toc-close").addEventListener("click", () => setTocOpen(false));
+  document.querySelector(".toc-scrim").addEventListener("click", () => setTocOpen(false));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setTocOpen(false);
+  });
   tocList.addEventListener("click", (event) => {
-    if (event.target.closest("a")) document.body.classList.remove("toc-open");
+    if (event.target.closest("a")) setTocOpen(false);
   });
 
   setActive(0);

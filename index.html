@@ -10,16 +10,18 @@
 <body>
 <div class="backdrop" aria-hidden="true"></div>
 
-<nav class="toc" aria-label="目录">
+<nav class="toc" id="toc" aria-label="目录">
+  <button type="button" class="toc-close" aria-label="关闭目录">关闭</button>
   <a class="toc-brand" href="#cover">AI 到底有什么用<span>2026 · 现状报告</span></a>
   <div class="toc-progress"><div class="toc-progress-track"><div class="toc-progress-fill"></div></div><span class="toc-progress-text">01 / 01</span></div>
   <div class="toc-scroll"><ol class="toc-list"></ol></div>
   <a class="toc-feature" href="space.html"><span>专题</span><b>航天里的 AI</b><small>7 个环节 · 从图纸到深空</small></a>
   <div class="toc-hint">键盘 <kbd>↑</kbd> <kbd>↓</kbd> 翻页 · 点 <kbd>›</kbd> 展开或收起</div>
 </nav>
+<div class="toc-scrim" aria-hidden="true"></div>
 
 <div class="topbar">
-  <button type="button" aria-label="打开目录">目录</button>
+  <button type="button" class="topbar-menu" aria-controls="toc" aria-expanded="false">目录</button>
   <span class="topbar-title"></span>
   <span class="topbar-count"></span>
   <i class="topbar-progress"></i>
@@ -105,12 +107,12 @@
       <p class="lede reveal d2">不管是医院、航空公司、政府还是实验室，AI 发挥作用的方式离不开这六种。点击卡片可以直接跳到对应的页面。</p>
     </header>
     <div class="grid g-3 uses">
-      <a class="card use-card reveal d2" href="#use-read"><div class="use-no">用处一</div><h3>读得快、写得快</h3><p>几天的案头活，几分钟出初稿</p><div class="fig">2 小时<small>归类完 5 万份民意</small></div></a>
-      <a class="card use-card reveal d2" href="#use-see"><div class="use-no">用处二</div><h3>眼睛尖</h3><p>当第二双眼睛，查出人容易漏掉的</p><div class="fig">+12%<small>多查出的癌症</small></div></a>
-      <a class="card use-card reveal d3" href="#use-predict"><div class="use-no">用处三</div><h3>算得快、看得远</h3><p>仿真从小时到秒，故障发生前就预判</p><div class="fig">5,600→55<small>次航班取消</small></div></a>
-      <a class="card use-card reveal d3" href="#use-expert"><div class="use-no">用处四</div><h3>让人人有专家</h3><p>新手变熟手，好医生好老师装进手机</p><div class="fig">+34%<small>新手的工作效率</small></div></a>
-      <a class="card use-card reveal d4" href="#use-agent"><div class="use-no">用处五</div><h3>自己动手干活</h3><p>从"你问它答"到"交代任务它去办"</p><div class="fig">17 小时<small>能独立完成的任务</small></div></a>
-      <a class="card use-card reveal d4" href="#use-science"><div class="use-no">用处六</div><h3>加速科学发现</h3><p>帮科学家拿下诺贝尔奖、找到新药</p><div class="fig">2 亿<small>种蛋白质结构</small></div></a>
+      <div class="card use-card reveal d2"><div class="use-no">用处一</div><h3>读得快、写得快</h3><p>几天的案头活，几分钟出初稿</p><div class="fig">2 小时<small>归类完 5 万份民意</small></div></div>
+      <div class="card use-card reveal d2"><div class="use-no">用处二</div><h3>眼睛尖</h3><p>当第二双眼睛，查出人容易漏掉的</p><div class="fig">+12%<small>多查出的癌症</small></div></div>
+      <div class="card use-card reveal d3"><div class="use-no">用处三</div><h3>算得快、看得远</h3><p>仿真从小时到秒，故障发生前就预判</p><div class="fig">5,600→55<small>次航班取消</small></div></div>
+      <div class="card use-card reveal d3"><div class="use-no">用处四</div><h3>让人人有专家</h3><p>新手变熟手，好医生好老师装进手机</p><div class="fig">+34%<small>新手的工作效率</small></div></div>
+      <div class="card use-card reveal d4"><div class="use-no">用处五</div><h3>自己动手干活</h3><p>从"你问它答"到"交代任务它去办"</p><div class="fig">17 小时<small>能独立完成的任务</small></div></div>
+      <div class="card use-card reveal d4"><div class="use-no">用处六</div><h3>加速科学发现</h3><p>帮科学家拿下诺贝尔奖、找到新药</p><div class="fig">2 亿<small>种蛋白质结构</small></div></div>
     </div>
   </div>
 </section>

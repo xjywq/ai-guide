@@ -10,16 +10,18 @@
 <body>
 <div class="backdrop" aria-hidden="true"></div>
 
-<nav class="toc" aria-label="目录">
+<nav class="toc" id="toc" aria-label="目录">
+  <button type="button" class="toc-close" aria-label="关闭目录">关闭</button>
   <a class="toc-back" href="index.html">← AI 到底有什么用</a>
   <a class="toc-brand" href="#cover">航天里的 AI<span>专题 · 从图纸到深空</span></a>
   <div class="toc-progress"><div class="toc-progress-track"><div class="toc-progress-fill"></div></div><span class="toc-progress-text">01 / 01</span></div>
   <div class="toc-scroll"><ol class="toc-list"></ol></div>
   <div class="toc-hint">键盘 <kbd>↑</kbd> <kbd>↓</kbd> 翻页 · 点 <kbd>›</kbd> 展开或收起</div>
 </nav>
+<div class="toc-scrim" aria-hidden="true"></div>
 
 <div class="topbar">
-  <button type="button" aria-label="打开目录">目录</button>
+  <button type="button" class="topbar-menu" aria-controls="toc" aria-expanded="false">目录</button>
   <span class="topbar-title"></span>
   <span class="topbar-count"></span>
   <i class="topbar-progress"></i>
@@ -69,7 +71,7 @@
       <div class="m-row"><b>航空国防</b><span data-stage="研究">空客 ATTOL 自主起降</span><span data-stage="试验">X-62A AI 空战 · CCA 无人僚机</span><span data-stage="在用">Maven 图像识别 · Skywise · GenAI.mil</span></div>
     </div>
     <p class="say reveal d4"><b>打个比方</b>AI 在航天里像一批刚入职的新人：在"看、算、躲"这类规则清楚的岗位上已经独当一面；设计和制造的岗位还在试用期，每一步都有老师傅把关。</p>
-    <p class="note reveal d5"><b>怎么读这个专题：</b>按"地面研制 → 在轨应用 → 深空与科学"的顺序，最后是航空国防。每个环节两页：先看"案例"，再看"原理"，原理页的卡片可以点开看做法、数字和局限。最后一页总结 AI 在航天里的好处和难点。用目录可以随时跳到任何一页。</p>
+    <p class="note reveal d5"><b>怎么读：</b>按"地面研制 → 在轨应用 → 深空与科学"的顺序，最后是航空国防。每个环节两页，先看"案例"，再看"原理"；最后一页总结好处和难点。<br><b>哪里能点：</b>只有两处。一是目录（电脑在左侧，手机点左上角"目录"），可以跳到任何一页；二是原理页里带<span class="cue-sample">展开细节　＋</span>标签的卡片，点开能看做法、数字和局限。其余卡片都只是展示。</p>
     <div class="src reveal d5">说明："在用"指已进入实际任务或产品；"试验"指在真实环境中验证过但未常态化；"研究"指论文、原型或地面演示。来源见各页底部。</div>
   </div>
 </section>

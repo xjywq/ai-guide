@@ -1,7 +1,8 @@
 /* 幻灯片式页面：生成左侧目录、跟踪当前页、键盘翻页、进场动画。 */
 (function setupSlides() {
   const MOBILE_BREAKPOINT_PX = 900;
-  const REVEAL_THRESHOLD = 0.25;
+  /* 页面顶部进入视口下方 80% 处即开始进场；用边距而不是可见比例，手机上很长的页也能触发 */
+  const REVEAL_ROOT_MARGIN = "0px 0px -20% 0px";
   const NEXT_KEYS = new Set(["ArrowDown", "PageDown", " "]);
   const PREV_KEYS = new Set(["ArrowUp", "PageUp"]);
 
@@ -30,9 +31,19 @@
 
   const slideLinks = new Map();
   const chapterItems = [];
+  let previousPart = "";
   chapters.forEach((chapter) => {
+    /* 同属一个专题的章节（data-part）在目录里归到一个小标题下 */
+    const part = chapter.slides[0].slide.dataset.part ?? "";
+    if (part && part !== previousPart) {
+      const partItem = document.createElement("li");
+      partItem.className = "toc-part";
+      partItem.textContent = part;
+      tocList.appendChild(partItem);
+    }
+    previousPart = part;
     const item = document.createElement("li");
-    item.className = "toc-chapter";
+    item.className = part ? "toc-chapter in-part" : "toc-chapter";
     const firstSlideId = chapter.slides[0].slide.id;
     item.innerHTML = `<a href="#${firstSlideId}">${chapter.name}</a>`;
     const subList = document.createElement("ol");
@@ -49,6 +60,65 @@
     item.appendChild(subList);
     tocList.appendChild(item);
     chapterItems.push({ item, chapter });
+  });
+
+  /* ---------- 航天专题路线条：每页顶部标出当前在哪个环节、哪一页 ---------- */
+  const trailModules = chapters.filter((chapter) => chapter.slides[0].slide.dataset.phase);
+  const trailPhases = [];
+  trailModules.forEach((chapter) => {
+    const phaseName = chapter.slides[0].slide.dataset.phase;
+    let phase = trailPhases.at(-1);
+    if (!phase || phase.name !== phaseName) {
+      phase = { name: phaseName, modules: [] };
+      trailPhases.push(phase);
+    }
+    phase.modules.push(chapter);
+  });
+  function buildTrail(currentSlide) {
+    const nav = document.createElement("nav");
+    nav.className = "trail";
+    nav.setAttribute("aria-label", "航天专题路线");
+    nav.innerHTML = trailPhases
+      .map((phase) => {
+        const moduleLinks = phase.modules
+          .map((chapter) => {
+            const isCurrent = chapter.slides.some(({ slide }) => slide === currentSlide);
+            const pageMarks = chapter.slides
+              .map(({ slide }) => `<i class="${slide === currentSlide ? "on" : ""}">${slide.dataset.kind}</i>`)
+              .join("");
+            const pages = isCurrent ? `<span class="trail-pages">${pageMarks}</span>` : "";
+            return `<a class="trail-mod${isCurrent ? " is-current" : ""}" href="#${chapter.slides[0].slide.id}">${chapter.name}${pages}</a>`;
+          })
+          .join("");
+        return `<div class="trail-phase"><span class="trail-phase-name">${phase.name}</span><div class="trail-mods">${moduleLinks}</div></div>`;
+      })
+      .join("");
+    return nav;
+  }
+  slides
+    .filter((slide) => slide.dataset.trail !== undefined)
+    .forEach((slide) => {
+      const trail = buildTrail(slide);
+      slide.querySelector(".slide-inner").prepend(trail);
+      const current = trail.querySelector(".is-current");
+      if (current) trail.scrollLeft = current.offsetLeft - trail.clientWidth / 2 + current.offsetWidth / 2;
+    });
+
+  /* ---------- 原理页：一键展开或收起全部细节 ---------- */
+  document.querySelectorAll(".expand-all").forEach((button) => {
+    const panels = Array.from(button.closest(".slide").querySelectorAll("details.more"));
+    const syncLabel = () => {
+      const allOpen = panels.every((panel) => panel.open);
+      button.textContent = allOpen ? "全部收起" : "全部展开";
+      button.setAttribute("aria-expanded", String(allOpen));
+    };
+    button.addEventListener("click", () => {
+      const openAll = !panels.every((panel) => panel.open);
+      panels.forEach((panel) => { panel.open = openAll; });
+      syncLabel();
+    });
+    panels.forEach((panel) => panel.addEventListener("toggle", syncLabel));
+    syncLabel();
   });
 
   /* ---------- 页码 ---------- */
@@ -104,9 +174,30 @@
         revealObserver.unobserve(slide);
       }
     },
-    { threshold: REVEAL_THRESHOLD }
+    { rootMargin: REVEAL_ROOT_MARGIN }
   );
   slides.forEach((slide) => revealObserver.observe(slide));
+
+  /* ---------- 手机上横滑卡片的分页点 ---------- */
+  document.querySelectorAll(".swipe").forEach((track) => {
+    const cards = Array.from(track.children);
+    const dots = document.createElement("div");
+    dots.className = "swipe-dots";
+    dots.setAttribute("aria-hidden", "true");
+    dots.innerHTML = cards.map(() => "<i></i>").join("") + `<span>左右滑动 · ${cards.length} 个</span>`;
+    track.after(dots);
+    const dotItems = Array.from(dots.querySelectorAll("i"));
+    const markCurrent = () => {
+      const trackLeft = track.getBoundingClientRect().left;
+      let current = 0;
+      cards.forEach((card, index) => {
+        if (card.getBoundingClientRect().left - trackLeft < card.offsetWidth / 2) current = index;
+      });
+      dotItems.forEach((dot, index) => dot.classList.toggle("on", index === current));
+    };
+    track.addEventListener("scroll", markCurrent, { passive: true });
+    markCurrent();
+  });
 
   /* ---------- 键盘翻页 ---------- */
   function goTo(index) {
@@ -116,6 +207,8 @@
   document.addEventListener("keydown", (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (window.innerWidth <= MOBILE_BREAKPOINT_PX) return;
+    /* 焦点在可展开细节或按钮上时，空格留给它们自己用 */
+    if (event.key === " " && event.target.closest("summary, button")) return;
     if (NEXT_KEYS.has(event.key)) {
       event.preventDefault();
       goTo(activeIndex + 1);
